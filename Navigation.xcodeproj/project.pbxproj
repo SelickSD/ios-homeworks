@@ -13,6 +13,11 @@
 		4414ECAA27AEA99A004D5A77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4414ECA827AEA99A004D5A77 /* Main.storyboard */; };
 		4414ECAC27AEA99B004D5A77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4414ECAB27AEA99B004D5A77 /* Assets.xcassets */; };
 		4414ECAF27AEA99B004D5A77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4414ECAD27AEA99B004D5A77 /* LaunchScreen.storyboard */; };
+		4414ECBB27AEB317004D5A77 /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4414ECBA27AEB317004D5A77 /* ProfileView.xib */; };
+		4414ECBD27AEB72E004D5A77 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4414ECBC27AEB72E004D5A77 /* ProfileView.swift */; };
+		4414ECC427AECC01004D5A77 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4414ECC327AECC01004D5A77 /* Profile.storyboard */; };
+		4414ECC627AECC75004D5A77 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4414ECC527AECC75004D5A77 /* ProfileViewController.swift */; };
+		447F74ED27AEE23F00CC95D9 /* MyDog.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 447F74EC27AEE23F00CC95D9 /* MyDog.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,11 @@
 		4414ECAB27AEA99B004D5A77 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4414ECAE27AEA99B004D5A77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4414ECB027AEA99B004D5A77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4414ECBA27AEB317004D5A77 /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
+		4414ECBC27AEB72E004D5A77 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		4414ECC327AECC01004D5A77 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
+		4414ECC527AECC75004D5A77 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		447F74EC27AEE23F00CC95D9 /* MyDog.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = MyDog.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +66,7 @@
 		4414ECA127AEA99A004D5A77 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				4414ECBE27AEB853004D5A77 /* Images */,
 				4414ECA227AEA99A004D5A77 /* AppDelegate.swift */,
 				4414ECA427AEA99A004D5A77 /* SceneDelegate.swift */,
 				4414ECA627AEA99A004D5A77 /* ViewController.swift */,
@@ -63,8 +74,20 @@
 				4414ECAB27AEA99B004D5A77 /* Assets.xcassets */,
 				4414ECAD27AEA99B004D5A77 /* LaunchScreen.storyboard */,
 				4414ECB027AEA99B004D5A77 /* Info.plist */,
+				4414ECBA27AEB317004D5A77 /* ProfileView.xib */,
+				4414ECBC27AEB72E004D5A77 /* ProfileView.swift */,
+				4414ECC327AECC01004D5A77 /* Profile.storyboard */,
+				4414ECC527AECC75004D5A77 /* ProfileViewController.swift */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		4414ECBE27AEB853004D5A77 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				447F74EC27AEE23F00CC95D9 /* MyDog.jpg */,
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,8 +148,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				447F74ED27AEE23F00CC95D9 /* MyDog.jpg in Resources */,
 				4414ECAF27AEA99B004D5A77 /* LaunchScreen.storyboard in Resources */,
+				4414ECBB27AEB317004D5A77 /* ProfileView.xib in Resources */,
 				4414ECAC27AEA99B004D5A77 /* Assets.xcassets in Resources */,
+				4414ECC427AECC01004D5A77 /* Profile.storyboard in Resources */,
 				4414ECAA27AEA99A004D5A77 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,7 +164,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4414ECC627AECC75004D5A77 /* ProfileViewController.swift in Sources */,
 				4414ECA727AEA99A004D5A77 /* ViewController.swift in Sources */,
+				4414ECBD27AEB72E004D5A77 /* ProfileView.swift in Sources */,
 				4414ECA327AEA99A004D5A77 /* AppDelegate.swift in Sources */,
 				4414ECA527AEA99A004D5A77 /* SceneDelegate.swift in Sources */,
 			);
