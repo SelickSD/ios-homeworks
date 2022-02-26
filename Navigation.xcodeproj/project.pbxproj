@@ -12,7 +12,12 @@
 		4414ECA727AEA99A004D5A77 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4414ECA627AEA99A004D5A77 /* ViewController.swift */; };
 		4414ECAC27AEA99B004D5A77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4414ECAB27AEA99B004D5A77 /* Assets.xcassets */; };
 		4414ECAF27AEA99B004D5A77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4414ECAD27AEA99B004D5A77 /* LaunchScreen.storyboard */; };
+		442B941927CA836B00B7D897 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442B941827CA836B00B7D897 /* TabBarController.swift */; };
+		442B941B27CA922A00B7D897 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442B941A27CA922A00B7D897 /* ProfileHeaderView.swift */; };
 		444C935427C5492500BC3A22 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444C935327C5492500BC3A22 /* CustomTabBarController.swift */; };
+		444C935627C943BF00BC3A22 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444C935527C943BF00BC3A22 /* FeedViewController.swift */; };
+		444C935827C943D400BC3A22 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444C935727C943D400BC3A22 /* ProfileViewController.swift */; };
+		444C935A27C945A000BC3A22 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444C935927C945A000BC3A22 /* PostViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +28,12 @@
 		4414ECAB27AEA99B004D5A77 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4414ECAE27AEA99B004D5A77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4414ECB027AEA99B004D5A77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		442B941827CA836B00B7D897 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		442B941A27CA922A00B7D897 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		444C935327C5492500BC3A22 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		444C935527C943BF00BC3A22 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		444C935727C943D400BC3A22 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		444C935927C945A000BC3A22 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,13 +66,18 @@
 		4414ECA127AEA99A004D5A77 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				4414ECA227AEA99A004D5A77 /* AppDelegate.swift */,
 				4414ECA427AEA99A004D5A77 /* SceneDelegate.swift */,
+				444C935527C943BF00BC3A22 /* FeedViewController.swift */,
+				444C935727C943D400BC3A22 /* ProfileViewController.swift */,
+				442B941A27CA922A00B7D897 /* ProfileHeaderView.swift */,
+				4414ECA227AEA99A004D5A77 /* AppDelegate.swift */,
+				444C935327C5492500BC3A22 /* CustomTabBarController.swift */,
+				442B941827CA836B00B7D897 /* TabBarController.swift */,
+				444C935927C945A000BC3A22 /* PostViewController.swift */,
 				4414ECA627AEA99A004D5A77 /* ViewController.swift */,
 				4414ECAB27AEA99B004D5A77 /* Assets.xcassets */,
 				4414ECAD27AEA99B004D5A77 /* LaunchScreen.storyboard */,
 				4414ECB027AEA99B004D5A77 /* Info.plist */,
-				444C935327C5492500BC3A22 /* CustomTabBarController.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -137,8 +152,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				444C935827C943D400BC3A22 /* ProfileViewController.swift in Sources */,
+				442B941927CA836B00B7D897 /* TabBarController.swift in Sources */,
 				4414ECA727AEA99A004D5A77 /* ViewController.swift in Sources */,
+				444C935A27C945A000BC3A22 /* PostViewController.swift in Sources */,
+				442B941B27CA922A00B7D897 /* ProfileHeaderView.swift in Sources */,
 				4414ECA327AEA99A004D5A77 /* AppDelegate.swift in Sources */,
+				444C935627C943BF00BC3A22 /* FeedViewController.swift in Sources */,
 				444C935427C5492500BC3A22 /* CustomTabBarController.swift in Sources */,
 				4414ECA527AEA99A004D5A77 /* SceneDelegate.swift in Sources */,
 			);
