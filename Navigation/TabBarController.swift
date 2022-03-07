@@ -24,9 +24,9 @@ class TabBarController: UITabBarController {
         var image: UIImage? {
             switch self {
             case .feed:
-                return UIImage(systemName: "pencil")
+                return UIImage(systemName: "note")
             case .profile:
-                return UIImage(systemName: "pencil")
+                return UIImage(systemName: "person")
             }
         }
     }
