@@ -33,6 +33,11 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = .systemBackground
+        UITabBar.appearance().barTintColor = .systemBackground
+        tabBar.tintColor = .label
+        
         self.setupTabBar()
     }
     private func setupTabBar() {
@@ -42,15 +47,21 @@ class TabBarController: UITabBarController {
         self.viewControllers = items.map({tabBarItem in
             switch tabBarItem {
             case .feed:
-                return ViewController()
+                return createNavController(for: ViewController(), index: .feed)
             case .profile:
-                return ProfileViewController()
+                return createNavController(for: ProfileViewController(), index: .profile)
             }
         })
-
-        self.viewControllers?.enumerated().forEach({(index, viewController) in
-            viewController.tabBarItem.title = items[index].title
-            viewController.tabBarItem.image = items[index].image
-        })
     }
+
+    private func createNavController(for rootViewController: UIViewController,
+                                     index: TabBarItem) -> UIViewController {
+
+        let navController = UINavigationController(rootViewController: rootViewController)
+        rootViewController.navigationItem.title = index.title
+        navController.tabBarItem.title = index.title
+        navController.tabBarItem.image = index.image
+        return navController
+    }
+
 }

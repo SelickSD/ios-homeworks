@@ -10,6 +10,11 @@ import UIKit
 
 @IBDesignable
 class ProfileHeaderView: UIView {
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var mainStack: UIStackView!
+    @IBOutlet weak var profileName: UILabel!
+    @IBOutlet weak var profileStatus: UILabel!
+    @IBOutlet weak var statusButton: UIButton!
 
     let imageView = UIImageView(
         image: UIImage(named: "image_01")// исходная картинка
@@ -26,24 +31,17 @@ class ProfileHeaderView: UIView {
 
     private func setupViews() {
 
-
-
-        self.setupProfileImage()
-
-
-
-
-
+        let xibView = loadViewFromXib()
+        xibView.frame = self.bounds
+        xibView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.addSubview(xibView)
 
         }
-    private func setupProfileImage() {
-        self.addSubview(imageView)
-        imageView.frame.size = CGSize(width: 100, height: 100) //размеры новой картинки
-        imageView.layer.cornerRadius = 50
-        imageView.clipsToBounds = true
-        imageView.layer.borderColor = UIColor.magenta.cgColor // цвет рамки
-        imageView.layer.borderWidth = 10 // толщина рамки
 
+    private func loadViewFromXib() -> UIView {
+        let bundle = Bundle(for: type(of: self))
+        let xib = UINib(nibName: "ProfileView", bundle: bundle)
+        return xib.instantiate(withOwner: self, options: nil).first! as! UIView
     }
 
 }

@@ -23,7 +23,6 @@ class ProfileViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         profileHeaderView.frame = view.bounds
-       // profileHeaderView.backgroundColor = .white
     }
     
 

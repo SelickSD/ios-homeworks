@@ -12,6 +12,7 @@
 		4414ECA727AEA99A004D5A77 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4414ECA627AEA99A004D5A77 /* ViewController.swift */; };
 		4414ECAC27AEA99B004D5A77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4414ECAB27AEA99B004D5A77 /* Assets.xcassets */; };
 		4414ECAF27AEA99B004D5A77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4414ECAD27AEA99B004D5A77 /* LaunchScreen.storyboard */; };
+		44645DF727D735A5000A13C1 /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44645DF627D735A5000A13C1 /* ProfileView.xib */; };
 		448407F927D65A06009B1A3A /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448407F827D65A06009B1A3A /* TabBarController.swift */; };
 		448407FC27D65D65009B1A3A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448407FB27D65D65009B1A3A /* ProfileViewController.swift */; };
 		448407FE27D660D7009B1A3A /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448407FD27D660D7009B1A3A /* ProfileHeaderView.swift */; };
@@ -25,6 +26,7 @@
 		4414ECAB27AEA99B004D5A77 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4414ECAE27AEA99B004D5A77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4414ECB027AEA99B004D5A77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		44645DF627D735A5000A13C1 /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
 		448407F827D65A06009B1A3A /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		448407FB27D65D65009B1A3A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		448407FD27D660D7009B1A3A /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 			children = (
 				448407FB27D65D65009B1A3A /* ProfileViewController.swift */,
 				448407FD27D660D7009B1A3A /* ProfileHeaderView.swift */,
+				44645DF627D735A5000A13C1 /* ProfileView.xib */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -141,6 +144,7 @@
 			files = (
 				4414ECAF27AEA99B004D5A77 /* LaunchScreen.storyboard in Resources */,
 				4414ECAC27AEA99B004D5A77 /* Assets.xcassets in Resources */,
+				44645DF727D735A5000A13C1 /* ProfileView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
