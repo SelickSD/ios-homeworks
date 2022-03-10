@@ -16,16 +16,11 @@ class PostViewController: UIViewController {
         return label
     }()
 
-    let feedViewController = FeedViewController()
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupView()
         self.addBarButton()
 
-        feedViewController.postDelegate = self
-        feedViewController.delegatePost()
     }
 
     private func addBarButton(){
@@ -49,12 +44,3 @@ class PostViewController: UIViewController {
         self.present(infoView, animated: true, completion: nil)
     }
 }
-
-extension PostViewController: PostDelegate {
-    func showPost(post: Post) {
-        self.label.text = post.title
-    }
-}
-
-
-

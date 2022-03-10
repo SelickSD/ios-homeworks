@@ -11,10 +11,6 @@ struct Post {
     var title: String
 }
 
-protocol PostDelegate {
-    func showPost(post: Post)
-}
-
 class FeedViewController: UIViewController {
 
     private lazy var customButton: UIButton = {
@@ -22,12 +18,7 @@ class FeedViewController: UIViewController {
         return button
     }()
 
-    var postDelegate: PostDelegate?
     let myPost = Post(title: "Текст поста")
-
-    func delegatePost(){
-        postDelegate?.showPost(post: myPost)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,12 +41,17 @@ class FeedViewController: UIViewController {
         self.customButton.backgroundColor = .systemBlue
         self.customButton.setTitleColor(.white, for: .normal)
         self.customButton.setTitle("Открыть пост", for: .normal)
-        self.customButton.frame = CGRect(x:  UIScreen.main.bounds.size.width - 310, y: UIScreen.main.bounds.size.height - 150, width: 200, height: 50)
+        self.customButton.translatesAutoresizingMaskIntoConstraints = false
+        self.customButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
+        self.customButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
+        self.customButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
+        self.customButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         self.customButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
 
     @objc private func didTapButton(){
         let postViewController = PostViewController()
+        postViewController.label.text = myPost.title
         self.navigationController?.pushViewController(postViewController, animated: true)
     }
 }
