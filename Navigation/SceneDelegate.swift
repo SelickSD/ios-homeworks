@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.rootViewController = home
         window?.makeKeyAndVisible()
         window?.windowScene = windowScene
-        home.selectedIndex = 0
+        home.selectedIndex = 1
 
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
