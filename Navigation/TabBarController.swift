@@ -9,7 +9,7 @@ import UIKit
 
 class TabBarController: UITabBarController {
 
-    private enum tabBarIndex {
+    private enum TabBarItem {
         case feed
         case profile
 
@@ -21,32 +21,48 @@ class TabBarController: UITabBarController {
                 return "Профиль"
             }
         }
+        var image: UIImage? {
+            switch self {
+            case .feed:
+                return UIImage(systemName: "note")
+            case .profile:
+                return UIImage(systemName: "person")
+            }
+        }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.viewControllers?.enumerated().forEach({ (index, viewController) in
-            switch index {
-            case 0:
-                viewController.tabBarItem.title = tabBarIndex.feed.label
-            case 1:
-                viewController.tabBarItem.title = tabBarIndex.profile.label
-            default:
-                viewController.tabBarItem.title = tabBarIndex.profile.label
+        self.view.backgroundColor = .systemBackground
+        UITabBar.appearance().barTintColor = .systemBackground
+        tabBar.tintColor = .label
+
+        self.setupTabBarController()
+    }
+    
+    private func setupTabBarController() {
+
+        let items: [TabBarItem] = [.feed, .profile]
+
+        self.viewControllers = items.map({tabBarItem in
+            switch tabBarItem {
+            case .feed:
+                return createNavigationController(for: FeedViewController(), index: .feed)
+            case .profile:
+                return createNavigationController(for: ProfileViewController(), index: .profile)
             }
         })
     }
-    
 
-    /*
-    // MARK: - Navigation
+    private func createNavigationController(for rootViewController: UIViewController,
+                                            index: TabBarItem) -> UIViewController {
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        let navigationController = UINavigationController(rootViewController: rootViewController)
+        rootViewController.navigationItem.title = index.label
+        navigationController.navigationBar.prefersLargeTitles = true
+        navigationController.tabBarItem.title = index.label
+        navigationController.tabBarItem.image = index.image
+        return navigationController
     }
-    */
-
 }
