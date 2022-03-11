@@ -109,5 +109,5 @@ class ProfileHeaderView: UIView {
     @objc private func didTapStatusButton() {
 
     }
-
 }
+

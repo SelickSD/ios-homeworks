@@ -20,6 +20,8 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
 
         self.setupView()
+        addTapGestureToHideKeyboard()
+
     }
 
     private func setupView() {
@@ -35,4 +37,14 @@ class ProfileViewController: UIViewController {
             topViewConstraint, leadingViewConstraint, trailingViewConstraint, heightViewConstraint
         ])
     }
+
 }
+
+extension UIViewController {
+    func addTapGestureToHideKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
+        view.addGestureRecognizer(tapGesture)
+    }
+}
+
+

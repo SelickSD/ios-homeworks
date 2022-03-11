@@ -45,32 +45,9 @@ class FeedViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        addTapGestureToHideKeyboard()
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //self.setupView2()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-       // self.setupView2()
-    }
-
-    private func setupView2() {
-        self.labelStackView.invalidateIntrinsicContentSize()
-        self.postButton.invalidateIntrinsicContentSize()
-        self.infoPostButton.invalidateIntrinsicContentSize()
-
-    }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setupView()
@@ -88,7 +65,6 @@ class FeedViewController: UIViewController {
         let heightInfoPostButton = self.postButton.heightAnchor.constraint(equalToConstant: 50)
         let heightPostButton = self.infoPostButton.heightAnchor.constraint(equalToConstant: 50)
 
-
         NSLayoutConstraint.activate([
             centerConstraint, leadingConstraint, trailingConstraint, heightPostButton, heightInfoPostButton
         ])
@@ -98,13 +74,10 @@ class FeedViewController: UIViewController {
         if sender.tag == 0 {
             let myPost = PostViewController()
             self.navigationController?.pushViewController(myPost, animated: true)
-            self.setupView2()
-
 
         } else if sender.tag == 1 {
             let infoPost = PostViewController()
             self.navigationController?.pushViewController(infoPost, animated: true)
         }
-
     }
 }
