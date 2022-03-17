@@ -19,6 +19,9 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let loginView = LogInViewController()
+        self.navigationController?.pushViewController(loginView, animated: false)
+
         self.setupView()
         addTapGestureToHideKeyboard()
 
