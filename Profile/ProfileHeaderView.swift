@@ -64,25 +64,28 @@ class ProfileHeaderView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupViews()
+
+        self.setupViews()
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupViews()
+
+        self.setupViews()
     }
 
     private func setupViews() {
         setupProfileImage()
         setupLabelName()
-        setupStatusButton()
         setupLabelStatus()
         setupTextFiled()
+        setupStatusButton()
     }
 
     private func setupProfileImage() {
         addSubview(profileAvatar)
 
         self.profileAvatar.translatesAutoresizingMaskIntoConstraints = false
+
         self.profileAvatar.widthAnchor.constraint(equalToConstant: 100).isActive = true
         self.profileAvatar.heightAnchor.constraint(equalToConstant: 100).isActive = true
         self.profileAvatar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
@@ -93,40 +96,46 @@ class ProfileHeaderView: UIView {
         addSubview(labelName)
 
         self.labelName.translatesAutoresizingMaskIntoConstraints = false
+
         self.labelName.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 27).isActive = true
         self.labelName.leftAnchor.constraint(equalTo: self.profileAvatar.rightAnchor, constant: 16).isActive = true
+        self.labelName.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16).isActive = true
     }
 
     private func setupLabelStatus() {
         addSubview(labelStatus)
 
         self.labelStatus.translatesAutoresizingMaskIntoConstraints = false
+
+        self.labelStatus.topAnchor.constraint(equalTo: self.labelName.bottomAnchor, constant: 16).isActive = true
         self.labelStatus.leftAnchor.constraint(equalTo: self.profileAvatar.rightAnchor, constant: 16).isActive = true
-        self.labelStatus.bottomAnchor.constraint(equalTo: self.statusButton.topAnchor, constant: -86).isActive = true
-    }
-
-    private func setupStatusButton() {
-        self.addSubview(statusButton)
-
-        self.statusButton.translatesAutoresizingMaskIntoConstraints = false
-        self.statusButton.topAnchor.constraint(equalTo: self.profileAvatar.bottomAnchor, constant: 72).isActive = true
-        self.statusButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16).isActive = true
-        self.statusButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant:  -16).isActive = true // Вызывает предупреждение в терминале
-        self.statusButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
-        self.statusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        self.labelStatus.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16).isActive = true
     }
 
     private func setupTextFiled() {
         self.addSubview(statusTextFiled)
 
         self.statusTextFiled.translatesAutoresizingMaskIntoConstraints = false
-        self.statusTextFiled.bottomAnchor.constraint(equalTo: self.statusButton.topAnchor, constant: -16).isActive = true
+
+        self.statusTextFiled.topAnchor.constraint(equalTo: self.labelStatus.bottomAnchor, constant: 16).isActive = true
         self.statusTextFiled.leftAnchor.constraint(equalTo: self.profileAvatar.rightAnchor, constant: 16).isActive = true
         self.statusTextFiled.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16).isActive = true
         self.statusTextFiled.heightAnchor.constraint(equalToConstant: 40).isActive = true
 
         self.statusTextFiled.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
+    }
+
+    private func setupStatusButton() {
+        self.addSubview(statusButton)
+
+        self.statusButton.translatesAutoresizingMaskIntoConstraints = false
+
+        self.statusButton.topAnchor.constraint(equalTo: self.statusTextFiled.bottomAnchor, constant: 34).isActive = true
+        self.statusButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16).isActive = true
+        self.statusButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16).isActive = true
+        self.statusButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
+        self.statusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
     }
 
     @objc private func buttonPressed() {

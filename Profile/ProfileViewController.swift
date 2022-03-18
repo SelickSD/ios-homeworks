@@ -9,18 +9,31 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
-    lazy var profileHeaderView = ProfileHeaderView()
+    private lazy var profileHeaderView: ProfileHeaderView = {
+        let view = ProfileHeaderView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .lightGray
-        self.view.addSubview(profileHeaderView)
-        addTapGestureToHideKeyboard()
-    }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        profileHeaderView.frame = self.view.bounds
+        self.addTapGestureToHideKeyboard()
+        self.setupViews()
+    }
+    
+    private func setupViews() {
+        self.view.addSubview(profileHeaderView)
+
+        let topViewConstraint = profileHeaderView.topAnchor.constraint(equalTo: self.view.topAnchor)
+        let leadingViewConstraint = profileHeaderView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
+        let trailingViewConstraint = profileHeaderView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        let bottomViewConstraint = profileHeaderView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+
+        NSLayoutConstraint.activate([
+            topViewConstraint, leadingViewConstraint, trailingViewConstraint, bottomViewConstraint
+        ])
     }
 }
 
