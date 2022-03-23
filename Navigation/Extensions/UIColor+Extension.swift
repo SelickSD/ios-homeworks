@@ -11,16 +11,16 @@ extension UIColor {
     convenience init?(hex: String) {
         var hexClear = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         hexClear = hexClear.replacingOccurrences(of: "#", with: "")
-
+        
         let length = hexClear.count
         var rgb: UInt64 = 0
         var red: CGFloat = 0.0
         var green: CGFloat = 0.0
         var blue: CGFloat = 0.0
         var alpha: CGFloat = 1.0
-
+        
         guard Scanner(string: hexClear).scanHexInt64(&rgb) else { return nil }
-
+        
         if length == 6 {
             red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
             green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
@@ -33,7 +33,7 @@ extension UIColor {
         } else {
             return nil
         }
-
+        
         self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
 }

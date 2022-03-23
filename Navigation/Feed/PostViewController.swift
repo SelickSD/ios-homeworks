@@ -9,14 +9,13 @@ import UIKit
 
 class PostViewController: UIViewController {
 
-        override func viewDidLoad() {
-            super.viewDidLoad()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-            self.view.backgroundColor = .lightGray
-            self.title = "Пост"
+        self.view.backgroundColor = .lightGray
+        self.title = "Пост"
 
-            addTapGestureToHideKeyboard()
+        addTapGestureToHideKeyboard()
 
-        }
-
+    }
 }
