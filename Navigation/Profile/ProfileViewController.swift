@@ -18,7 +18,8 @@ class ProfileViewController: UIViewController {
         tableView.backgroundColor = .white
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
-        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "ArticleCell")
+        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.identifier)
+        tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: PhotosTableViewCell.identifier)
         return tableView
     }()
 
@@ -45,20 +46,19 @@ class ProfileViewController: UIViewController {
         addTapGestureToHideKeyboard()
     }
 
-    private func setupNavigationBar() {
-        let navBarAppearance = UINavigationBarAppearance()
-        navBarAppearance.configureWithOpaqueBackground()
-        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        navBarAppearance.backgroundColor = UIColor.black
-        navBarAppearance.shadowImage = nil
-        navBarAppearance.shadowColor = nil
-        self.navigationController?.navigationBar.standardAppearance = navBarAppearance
-        self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-    }
+    //    private func setupNavigationBar() {
+    //        let navBarAppearance = UINavigationBarAppearance()
+    //        navBarAppearance.configureWithOpaqueBackground()
+    //        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+    //        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+    //        navBarAppearance.backgroundColor = UIColor.black
+    //        navBarAppearance.shadowImage = nil
+    //        navBarAppearance.shadowColor = nil
+    //        self.navigationController?.navigationBar.standardAppearance = navBarAppearance
+    //        self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+    //    }
 
     private func setupView() {
-
 
         self.view.addSubview(self.postTableView)
 
@@ -87,36 +87,69 @@ class ProfileViewController: UIViewController {
     }
 }
 
+// MARK:  - UITableViewDelegate, - UITableViewDataSource
+
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.dataSource.count
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return self.dataSource.count
+        default:
+            return 0
+        }
+    }
+
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath) as? PostTableViewCell else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+        if indexPath.section == 0 && tableView.dequeueReusableCell(withIdentifier: PhotosTableViewCell.identifier, for: indexPath) as? PhotosTableViewCell != nil {
+
+            let cell = tableView.dequeueReusableCell(withIdentifier: PhotosTableViewCell.identifier, for: indexPath) as! PhotosTableViewCell
             return cell
+
+        } else if indexPath.section == 1 && tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as? PostTableViewCell != nil {
+
+            let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
+
+            let article = self.dataSource[indexPath.row]
+            let viewModel = PostTableViewCell.ViewModel(author: article.author,
+                                                        image: article.image,
+                                                        description: article.description,
+                                                        likes: Int(article.likes) ?? 0,
+                                                        views: Int(article.views) ?? 0
+            )
+
+            cell.setup(with: viewModel)
+
+            return cell
+
         }
 
-        let article = self.dataSource[indexPath.row]
-        let viewModel = PostTableViewCell.ViewModel(author: article.author,
-                                                    image: article.image,
-                                                    description: article.description,
-                                                    likes: Int(article.likes) ?? 0,
-                                                    views: Int(article.views) ?? 0
-        )
-        cell.setup(with: viewModel)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
         return cell
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 1 {
+            return nil
+        }
         let headerView = ProfileHeaderView()
         return headerView
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 150;
+        if section == 1 {
+            return 0
+        }
+        return 150
     }
 }
 

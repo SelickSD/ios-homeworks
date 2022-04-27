@@ -144,6 +144,7 @@ class PostTableViewCell: UITableViewCell {
     }
 }
 
+
 extension PostTableViewCell: Setupable {
     
     func setup(with viewModel: ViewModelProtocol) {

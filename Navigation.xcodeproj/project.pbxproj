@@ -25,6 +25,8 @@
 		4454A08727EA597000837DCF /* UIViewController + Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4454A08627EA597000837DCF /* UIViewController + Extention.swift */; };
 		448D28A327DF9AE1004DCEEB /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448D28A227DF9AE1004DCEEB /* LogInViewController.swift */; };
 		448D28A627DFA095004DCEEB /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448D28A527DFA095004DCEEB /* UIColor+Extension.swift */; };
+		44C814CA281968D9004FCC7A /* PhotosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C814C9281968D9004FCC7A /* PhotosTableViewCell.swift */; };
+		44C814CC281981C0004FCC7A /* UIView+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C814CB281981C0004FCC7A /* UIView+Extention.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +50,8 @@
 		4454A08627EA597000837DCF /* UIViewController + Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extention.swift"; sourceTree = "<group>"; };
 		448D28A227DF9AE1004DCEEB /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		448D28A527DFA095004DCEEB /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		44C814C9281968D9004FCC7A /* PhotosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosTableViewCell.swift; sourceTree = "<group>"; };
+		44C814CB281981C0004FCC7A /* UIView+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extention.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +104,6 @@
 			children = (
 				4454A07827E8D8DC00837DCF /* Models */,
 				44177B5627DB5F0B001437AC /* ProfileViewController.swift */,
-				44177B5C27DB9F73001437AC /* ProfileTableHederView.swift */,
 				448D28A227DF9AE1004DCEEB /* LogInViewController.swift */,
 			);
 			path = Profile;
@@ -118,8 +121,10 @@
 		4454A07827E8D8DC00837DCF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				44177B5C27DB9F73001437AC /* ProfileTableHederView.swift */,
 				4454A07927E8D8F600837DCF /* Post.swift */,
 				4454A07D27E90A4500837DCF /* PostTableViewCell.swift */,
+				44C814C9281968D9004FCC7A /* PhotosTableViewCell.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -139,6 +144,7 @@
 				4454A07427E384DA00837DCF /* UITextField+Extension.swift */,
 				4454A07627E3A39600837DCF /* UIViewController+Extension.swift */,
 				4454A08627EA597000837DCF /* UIViewController + Extention.swift */,
+				44C814CB281981C0004FCC7A /* UIView+Extention.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -216,8 +222,10 @@
 			files = (
 				4414ECA327AEA99A004D5A77 /* AppDelegate.swift in Sources */,
 				4454A07727E3A39600837DCF /* UIViewController+Extension.swift in Sources */,
+				44C814CC281981C0004FCC7A /* UIView+Extention.swift in Sources */,
 				4454A07E27E90A4500837DCF /* PostTableViewCell.swift in Sources */,
 				44177B5D27DB9F73001437AC /* ProfileTableHederView.swift in Sources */,
+				44C814CA281968D9004FCC7A /* PhotosTableViewCell.swift in Sources */,
 				4454A07A27E8D8F600837DCF /* Post.swift in Sources */,
 				44177B5F27DBB890001437AC /* PostViewController.swift in Sources */,
 				448D28A627DFA095004DCEEB /* UIColor+Extension.swift in Sources */,
