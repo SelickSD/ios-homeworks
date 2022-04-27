@@ -9,6 +9,8 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
+    private let notificationCenter = NotificationCenter.default
+
     private lazy var postTableView: UITableView = {
         let tableView = UITableView()
         tableView.rowHeight = UITableView.automaticDimension
@@ -42,21 +44,34 @@ class ProfileViewController: UIViewController {
         self.navigationController?.pushViewController(loginView, animated: false)
 
         self.setupView()
-
-        addTapGestureToHideKeyboard()
     }
 
-    //    private func setupNavigationBar() {
-    //        let navBarAppearance = UINavigationBarAppearance()
-    //        navBarAppearance.configureWithOpaqueBackground()
-    //        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-    //        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-    //        navBarAppearance.backgroundColor = UIColor.black
-    //        navBarAppearance.shadowImage = nil
-    //        navBarAppearance.shadowColor = nil
-    //        self.navigationController?.navigationBar.standardAppearance = navBarAppearance
-    //        self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-    //    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        notificationCenter.addObserver(self, selector: #selector(keyBoardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyBoardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        notificationCenter.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    @objc private func keyBoardShow() {
+//        if let keyBoardSize =
+//            (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+//            scrollView.contentInset.bottom = keyBoardSize.height
+//            scrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyBoardSize.height, right: 0)
+//        }
+    }
+
+    @objc private func keyBoardHide() {
+//        scrollView.contentInset.bottom = .zero
+//        scrollView.verticalScrollIndicatorInsets = .zero
+    }
 
     private func setupView() {
 
@@ -87,9 +102,9 @@ class ProfileViewController: UIViewController {
     }
 }
 
-// MARK:  - UITableViewDelegate, - UITableViewDataSource
+// MARK:  - UITableViewDelegate
 
-extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
+extension ProfileViewController: UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -107,6 +122,31 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 1 {
+            return nil
+        }
+        let headerView = ProfileHeaderView()
+        return headerView
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 1 {
+            return 0
+        }
+        return 150
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 && indexPath.row == 0 {
+            let galleryViewController = PhotosViewController()
+            navigationController?.pushViewController(galleryViewController, animated: true)
+        }
+    }
+}
+//MARK: - UITableViewDataSource
+
+extension ProfileViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
@@ -128,31 +168,11 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             )
 
             cell.setup(with: viewModel)
-
             return cell
-
         }
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
         return cell
     }
-
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 1 {
-            return nil
-        }
-        let headerView = ProfileHeaderView()
-        return headerView
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 1 {
-            return 0
-        }
-        return 150
-    }
 }
-
-
-
 

@@ -61,6 +61,7 @@ class ProfileHeaderView: UIView {
         textField.indent(size: 8)
         textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
         textField.placeholder = "Введи новый статус"
+        textField.delegate = self
         return textField
     }()
 
@@ -150,4 +151,14 @@ class ProfileHeaderView: UIView {
         statusText = textField.text
     }
 }
+
+///MARK: - UITextFieldDelegate
+
+extension ProfileHeaderView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.endEditing(true)
+        return true
+    }
+}
+
 

@@ -18,10 +18,11 @@ class PhotosTableViewCell: UITableViewCell {
         return label
     }()
 
-    private let openFotoCatalogButton: UIButton = {
+    private lazy var openFotoCatalogButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "arrow.right"), for: .normal)
+        button.addTarget(self, action: #selector(openGallery), for: .touchUpInside)
         return button
     }()
 
@@ -93,5 +94,9 @@ class PhotosTableViewCell: UITableViewCell {
             arrayImageViews.append(newImageViews)
         }
         return arrayImageViews
+    }
+
+    @objc private func openGallery() {
+        print("tap")
     }
 }

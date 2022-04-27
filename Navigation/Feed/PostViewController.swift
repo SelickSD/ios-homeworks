@@ -15,7 +15,7 @@ class PostViewController: UIViewController {
         self.view.backgroundColor = .lightGray
         self.title = "Пост"
 
-        addTapGestureToHideKeyboard()
+//        addTapGestureToHideKeyboard()
 
     }
 }
