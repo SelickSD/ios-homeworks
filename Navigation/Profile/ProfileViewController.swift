@@ -12,9 +12,7 @@ class ProfileViewController: UIViewController {
     private let notificationCenter = NotificationCenter.default
 
     private lazy var postTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 44
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .white
@@ -60,18 +58,9 @@ class ProfileViewController: UIViewController {
         notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
-    @objc private func keyBoardShow() {
-//        if let keyBoardSize =
-//            (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-//            scrollView.contentInset.bottom = keyBoardSize.height
-//            scrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyBoardSize.height, right: 0)
-//        }
-    }
+    @objc private func keyBoardShow() {}
 
-    @objc private func keyBoardHide() {
-//        scrollView.contentInset.bottom = .zero
-//        scrollView.verticalScrollIndicatorInsets = .zero
-    }
+    @objc private func keyBoardHide() {}
 
     private func setupView() {
 
