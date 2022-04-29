@@ -11,7 +11,6 @@ class ProfileViewController: UIViewController {
 
     private let notificationCenter = NotificationCenter.default
     private let headerView = ProfileHeaderView()
-    private let avatarZoom = AvatarZoomView()
 
     private var avatarTopAnchor = NSLayoutConstraint()
     private var avatarLeadingAnchor = NSLayoutConstraint()
@@ -100,20 +99,20 @@ class ProfileViewController: UIViewController {
 
         UIView.animate(withDuration: 0.5, delay: 0.0) {
             self.greyBackView.alpha = 0.9
-//            self.view.layoutIfNeeded()
+            //            self.view.layoutIfNeeded()
         }
         UIView.animate(withDuration: 0.3, delay: 0.5) {
             self.closeButton.alpha = 0.9
-//            self.view.layoutIfNeeded()
+            //            self.view.layoutIfNeeded()
         }
 
         UIView.animate(withDuration: 0.5, delay: 0.0) {
 
-            let avatarNewWidth = UIScreen.main.bounds.width / 3 * 2
+            guard let avatarZoom = self.view.viewWithTag(100) as? AvatarZoomView else { return }
 
-//            self.avatarZoom.alpha = 1.0
-//            self.avatarZoom.avatarImageView.alpha = 1.0
-            self.avatarZoom.avatarImageView.layer.cornerRadius = 0
+            let avatarNewWidth = UIScreen.main.bounds.width / 3 * 2
+            avatarZoom.avatarImageView.layer.cornerRadius = 0
+
             self.avatarTopAnchor.constant = UIScreen.main.bounds.width - avatarNewWidth
             self.avatarLeadingAnchor.constant = (UIScreen.main.bounds.width - avatarNewWidth) / 2
             self.avatarHeightAnchor.constant = avatarNewWidth
@@ -127,6 +126,9 @@ class ProfileViewController: UIViewController {
     }
 
     private func prepareForAnimation() {
+
+        let avatarZoom = AvatarZoomView()
+        avatarZoom.tag = 100
 
         view.addSubview(greyBackView)
         greyBackView.addSubview(closeButton)
@@ -161,13 +163,15 @@ class ProfileViewController: UIViewController {
 
     @objc private func didTapCloseButton() {
 
+        guard let avatarZoom = self.view.viewWithTag(100) as? AvatarZoomView else { return }
+
         UIView.animate(withDuration: 0.5, delay: 0.0) {
             self.greyBackView.alpha = 0.0
             self.closeButton.alpha = 0.0
 
-            self.avatarZoom.alpha = 1.0
-            self.avatarZoom.avatarImageView.alpha = 1.0
-            self.avatarZoom.avatarImageView.layer.cornerRadius = 75
+            avatarZoom.alpha = 1.0
+            avatarZoom.avatarImageView.alpha = 1.0
+            avatarZoom.avatarImageView.layer.cornerRadius = 75
 
             self.avatarTopAnchor.constant = 0
             self.avatarLeadingAnchor.constant = 16
@@ -189,6 +193,8 @@ class ProfileViewController: UIViewController {
     }
 
     @objc private func closeSubView() {
+        guard let avatarZoom = self.view.viewWithTag(100) as? AvatarZoomView else { return }
+
         closeButton.removeFromSuperview()
         avatarZoom.removeFromSuperview()
         greyBackView.removeFromSuperview()
@@ -289,7 +295,7 @@ extension ProfileViewController: UITableViewDataSource {
                                                         likes: Int(article.likes) ?? 0,
                                                         views: Int(article.views) ?? 0
             )
-
+            
             cell.setup(with: viewModel)
             return cell
         }
