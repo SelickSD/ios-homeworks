@@ -7,14 +7,8 @@
 
 import UIKit
 
-//protocol ProfileHeaderViewDelegate: AnyObject {
-//    func animateAvatar()
-//}
-
 class ProfileHeaderView: UIView {
 
-//    weak var delegate: ProfileHeaderViewDelegate?
-//    var animator = UIViewPropertyAnimator()
     private var statusText: String?
 
     private lazy var backView: UIView = {
@@ -99,28 +93,14 @@ class ProfileHeaderView: UIView {
         return stack
     }()
 
-//    private var avatarTopAnchor = NSLayoutConstraint()
-//    private var avatarLeadingAnchor = NSLayoutConstraint()
-//    private var avatarTrailingAnchor = NSLayoutConstraint()
-//    private var avatarBottomAnchor = NSLayoutConstraint()
-//    private var avatarWidthAnchor = NSLayoutConstraint()
-//    private var avatarHeightAnchor = NSLayoutConstraint()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.drawSelf()
-        //        setupGestures()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    //    private func setupGestures() {
-    //        let tapGesture = UITapGestureRecognizer(target: ProfileViewController.self, action: #selector(tapAction))
-    //        avatarImageView.addGestureRecognizer(tapGesture)
-    //        print(#function)
-    //    }
 
     private func drawSelf() {
 
@@ -131,13 +111,6 @@ class ProfileHeaderView: UIView {
         self.labelStackView.addArrangedSubview(statusLabel)
         self.labelStackView.addArrangedSubview(statusTextField)
         self.labelStackView.addArrangedSubview(setStatusButton)
-
-//        avatarTopAnchor = avatarImageView.topAnchor.constraint(equalTo: backView.topAnchor)
-//        avatarLeadingAnchor = avatarImageView.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 16)
-//        avatarTrailingAnchor = avatarImageView.trailingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: -8)
-//        avatarBottomAnchor = avatarImageView.bottomAnchor.constraint(equalTo: backView.bottomAnchor)
-//        avatarWidthAnchor = avatarImageView.widthAnchor.constraint(equalToConstant: 150)
-//        avatarHeightAnchor = avatarImageView.heightAnchor.constraint(equalToConstant: 150)
 
         NSLayoutConstraint.activate([
             backView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -150,7 +123,6 @@ class ProfileHeaderView: UIView {
             labelStackView.topAnchor.constraint(equalTo: backView.topAnchor),
             labelStackView.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -16),
             labelStackView.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -8),
-//            labelStackView.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 174),
 
             avatarImageView.topAnchor.constraint(equalTo: backView.topAnchor),
             avatarImageView.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 16),
@@ -158,9 +130,6 @@ class ProfileHeaderView: UIView {
             avatarImageView.bottomAnchor.constraint(equalTo: backView.bottomAnchor),
             avatarImageView.widthAnchor.constraint(equalToConstant: 150),
             avatarImageView.heightAnchor.constraint(equalToConstant: 150)
-
-//            avatarTopAnchor, avatarLeadingAnchor, avatarTrailingAnchor,
-//            avatarBottomAnchor, avatarWidthAnchor, avatarHeightAnchor
         ])
     }
 
@@ -174,10 +143,6 @@ class ProfileHeaderView: UIView {
     @objc func statusTextChanged(_ textField: UITextField) {
         statusText = textField.text
     }
-
-//    func animateAvatar() {
-//        avatarImageView.animate(
-//    }
 }
 
 //MARK: - UITextFieldDelegate

@@ -32,8 +32,9 @@ class ProfileViewController: UIViewController {
     private lazy var greyBackView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemGray
+        view.backgroundColor = .systemGray3
         view.alpha = 0
+        view.clipsToBounds = true
         return view
     }()
 
@@ -99,11 +100,9 @@ class ProfileViewController: UIViewController {
 
         UIView.animate(withDuration: 0.5, delay: 0.0) {
             self.greyBackView.alpha = 0.9
-            //            self.view.layoutIfNeeded()
         }
         UIView.animate(withDuration: 0.3, delay: 0.5) {
             self.closeButton.alpha = 0.9
-            //            self.view.layoutIfNeeded()
         }
 
         UIView.animate(withDuration: 0.5, delay: 0.0) {
@@ -118,9 +117,6 @@ class ProfileViewController: UIViewController {
             self.avatarHeightAnchor.constant = avatarNewWidth
             self.avatarWidthAnchor.constant = avatarNewWidth
 
-            print(self.avatarHeightAnchor.constant)
-            print(self.avatarWidthAnchor.constant)
-
             self.view.layoutIfNeeded()
         }
     }
@@ -132,7 +128,7 @@ class ProfileViewController: UIViewController {
 
         view.addSubview(greyBackView)
         greyBackView.addSubview(closeButton)
-        greyBackView.addSubview(avatarZoom)
+        view.addSubview(avatarZoom)
 
         NSLayoutConstraint.activate([
             greyBackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -146,13 +142,10 @@ class ProfileViewController: UIViewController {
             closeButton.widthAnchor.constraint(equalToConstant: 40)
         ])
 
-        avatarTopAnchor = avatarZoom.topAnchor.constraint(equalTo: greyBackView.topAnchor, constant: 0)
-        avatarLeadingAnchor = avatarZoom.leadingAnchor.constraint(equalTo: greyBackView.leadingAnchor, constant: 16)
+        avatarTopAnchor = avatarZoom.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
+        avatarLeadingAnchor = avatarZoom.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         avatarWidthAnchor = avatarZoom.widthAnchor.constraint(equalToConstant: 150)
         avatarHeightAnchor = avatarZoom.heightAnchor.constraint(equalToConstant: 150)
-
-        print(avatarHeightAnchor.constant)
-        print(avatarWidthAnchor.constant)
 
         NSLayoutConstraint.activate([
             avatarTopAnchor, avatarLeadingAnchor, avatarWidthAnchor, avatarHeightAnchor
@@ -177,9 +170,6 @@ class ProfileViewController: UIViewController {
             self.avatarLeadingAnchor.constant = 16
             self.avatarHeightAnchor.constant = 150
             self.avatarWidthAnchor.constant = 150
-
-            print(self.avatarHeightAnchor.constant)
-            print(self.avatarWidthAnchor.constant)
 
             self.view.layoutIfNeeded()
         }
@@ -255,7 +245,6 @@ extension ProfileViewController: UITableViewDelegate {
         if section == 1 {
             return nil
         }
-        //        let headerView = ProfileHeaderView()
         return headerView
     }
 
@@ -267,9 +256,11 @@ extension ProfileViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 && indexPath.row == 0 {
+        if indexPath == IndexPath(row: 0, section: 0) {
             let galleryViewController = PhotosViewController()
             navigationController?.pushViewController(galleryViewController, animated: true)
+
+            tableView.deselectRow(at: indexPath, animated: false)
         }
     }
 }
@@ -295,7 +286,7 @@ extension ProfileViewController: UITableViewDataSource {
                                                         likes: Int(article.likes) ?? 0,
                                                         views: Int(article.views) ?? 0
             )
-            
+
             cell.setup(with: viewModel)
             return cell
         }
@@ -304,12 +295,4 @@ extension ProfileViewController: UITableViewDataSource {
         return cell
     }
 }
-
-//// MARK: - ProfileHeaderViewDelegate
-//
-//extension ProfileViewController: ProfileHeaderViewDelegate {
-//    func animateAvatar() {
-//
-//    }
-//}
 

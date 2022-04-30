@@ -45,7 +45,6 @@ class FeedViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        addTapGestureToHideKeyboard()
     }
     
     override func viewWillAppear(_ animated: Bool) {

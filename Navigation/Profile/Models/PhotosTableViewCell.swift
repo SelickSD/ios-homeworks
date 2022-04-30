@@ -22,7 +22,7 @@ class PhotosTableViewCell: UITableViewCell {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "arrow.right"), for: .normal)
-        button.addTarget(self, action: #selector(openGallery), for: .touchUpInside)
+        //        button.addTarget(self, action: #selector(openGallery), for: .touchUpInside)
         return button
     }()
 
@@ -48,7 +48,7 @@ class PhotosTableViewCell: UITableViewCell {
     private func setupLayout() {
 
         let width = (contentView.bounds.width - 48) / 4
-  
+
         [nameLabel, openFotoCatalogButton, previewStackView].forEach {
             contentView.addSubview($0)
         }
@@ -96,7 +96,7 @@ class PhotosTableViewCell: UITableViewCell {
         return arrayImageViews
     }
 
-    @objc private func openGallery() {
-        print("tap")
-    }
+    //    @objc private func openGallery() {
+    //        print("tap")
+    //    }
 }

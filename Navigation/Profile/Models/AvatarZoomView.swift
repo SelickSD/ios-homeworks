@@ -31,7 +31,6 @@ class AvatarZoomView: UIView {
     private func drawSelf() {
         self.addSubview(avatarImageView)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.alpha = 1.0
 
         NSLayoutConstraint.activate([
             avatarImageView.topAnchor.constraint(equalTo: self.topAnchor),
