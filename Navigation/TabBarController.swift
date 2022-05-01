@@ -8,11 +8,11 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-
+    
     private enum TabBarItem {
         case feed
         case profile
-
+        
         var label: String {
             switch self {
             case .feed:
@@ -30,21 +30,21 @@ class TabBarController: UITabBarController {
             }
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.view.backgroundColor = .systemBackground
         UITabBar.appearance().barTintColor = .systemBackground
-        tabBar.tintColor = .label
-
+        tabBar.tintColor = .white
+        
         self.setupTabBarController()
     }
     
     private func setupTabBarController() {
-
+        
         let items: [TabBarItem] = [.feed, .profile]
-
+        
         self.viewControllers = items.map({tabBarItem in
             switch tabBarItem {
             case .feed:
@@ -54,10 +54,10 @@ class TabBarController: UITabBarController {
             }
         })
     }
-
+    
     private func createNavigationController(for rootViewController: UIViewController,
                                             index: TabBarItem) -> UIViewController {
-
+        
         let navigationController = UINavigationController(rootViewController: rootViewController)
         rootViewController.navigationItem.title = index.label
         navigationController.navigationBar.prefersLargeTitles = true

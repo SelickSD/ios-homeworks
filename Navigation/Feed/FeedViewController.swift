@@ -52,7 +52,7 @@ class FeedViewController: UIViewController {
         super.viewWillAppear(animated)
         self.setupView()
     }
-
+    
     private func setupView() {
         self.view.addSubview(labelStackView)
         self.labelStackView.addArrangedSubview(postButton)
