@@ -88,10 +88,20 @@ class LogInViewController: UIViewController {
         button.addTarget(self, action: #selector(self.didTapLogInButton), for: .touchUpInside)
         return button
     }()
+
+    private lazy var warningLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .lightGray
+        label.font = .systemFont(ofSize: 12)
+        label.textAlignment = .center
+        label.isHidden = true
+        return label
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white //UIColor(hex: "#4885CC")
+        view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true
         
         setupView()
@@ -117,6 +127,7 @@ class LogInViewController: UIViewController {
         scrollView.addSubview(contentView)
         contentView.addSubview(iconView)
         contentView.addSubview(loginStackView)
+        contentView.addSubview(warningLabel)
         scrollView.addSubview(logInButton)
         loginStackView.addArrangedSubview(loginTextField)
         loginStackView.addArrangedSubview(passwordTextField)
@@ -156,18 +167,22 @@ class LogInViewController: UIViewController {
             passwordTextField.trailingAnchor.constraint(equalTo: loginStackView.trailingAnchor),
             passwordTextField.heightAnchor.constraint(equalToConstant: 50),
 
-            logInButton.topAnchor.constraint(equalTo: loginStackView.bottomAnchor, constant: 16),
+            logInButton.topAnchor.constraint(equalTo: loginStackView.bottomAnchor, constant: 32),
             logInButton.leadingAnchor.constraint(equalTo: loginStackView.leadingAnchor),
             logInButton.trailingAnchor.constraint(equalTo: loginStackView.trailingAnchor),
             logInButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            logInButton.heightAnchor.constraint(equalToConstant: 50)
+            logInButton.heightAnchor.constraint(equalToConstant: 50),
+
+            warningLabel.topAnchor.constraint(equalTo: loginStackView.bottomAnchor, constant: 5),
+            warningLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
     }
-    
-    @objc private func didTapLogInButton() {
 
+    @objc private func didTapLogInButton() {
         view.endEditing(true)
-        
+
+        guard checkSecurityControl(loginTextField, passwordTextField, loginStackView, warningLabel) else { return }
+
         self.navigationController?.popViewController(animated: true)
         self.navigationController?.navigationBar.isHidden = false
     }
@@ -179,6 +194,9 @@ class LogInViewController: UIViewController {
     }
 
     @objc private func keyBoardShow(notification: NSNotification) {
+
+        returnNormalOptions([loginTextField, passwordTextField])
+
         if let keyBoardSize =
             (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             scrollView.contentInset.bottom = keyBoardSize.height + 25
@@ -193,6 +211,10 @@ class LogInViewController: UIViewController {
 
     @objc private func dismissKeyboard() {
         view.endEditing(true)
+
+        //MARK: Удалить!!!
+        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.navigationBar.isHidden = false
     }
 }
 
