@@ -91,11 +91,11 @@ class LogInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = .white //UIColor(hex: "#4885CC")
+        view.backgroundColor = .white //UIColor(hex: "#4885CC")
         self.navigationController?.navigationBar.isHidden = true
         
-        self.setupView()
+        setupView()
+        setupGestures()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -116,10 +116,10 @@ class LogInViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(iconView)
-        self.contentView.addSubview(loginStackView)
-        self.scrollView.addSubview(logInButton)
-        self.loginStackView.addArrangedSubview(loginTextField)
-        self.loginStackView.addArrangedSubview(passwordTextField)
+        contentView.addSubview(loginStackView)
+        scrollView.addSubview(logInButton)
+        loginStackView.addArrangedSubview(loginTextField)
+        loginStackView.addArrangedSubview(passwordTextField)
 
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -165,22 +165,34 @@ class LogInViewController: UIViewController {
     }
     
     @objc private func didTapLogInButton() {
+
+        view.endEditing(true)
         
         self.navigationController?.popViewController(animated: true)
         self.navigationController?.navigationBar.isHidden = false
     }
 
+    private func setupGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = true
+        view.addGestureRecognizer(tapGesture)
+    }
+
     @objc private func keyBoardShow(notification: NSNotification) {
         if let keyBoardSize =
             (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            scrollView.contentInset.bottom = keyBoardSize.height
-            scrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyBoardSize.height, right: 0)
+            scrollView.contentInset.bottom = keyBoardSize.height + 25
+            scrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyBoardSize.height + 25, right: 0)
         }
     }
     
     @objc private func keyBoardHide(notification: NSNotification) {
         scrollView.contentInset.bottom = .zero
         scrollView.verticalScrollIndicatorInsets = .zero
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 
