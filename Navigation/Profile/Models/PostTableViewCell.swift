@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol PostTableViewCellDelegate: AnyObject {
+    func addLikes(tag: Int)
+}
+
 class PostTableViewCell: UITableViewCell {
+
+    weak var delegate: PostTableViewCellDelegate?
     
     struct ViewModel: ViewModelProtocol {
         let author, image, description: String
@@ -64,12 +70,13 @@ class PostTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    private lazy var likesLabel: UILabel = {
+    private var likesLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .white
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.isUserInteractionEnabled = true
         return label
     }()
     
@@ -85,10 +92,22 @@ class PostTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setupView()
+        setupGestures()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapLikes))
+        tapGesture.cancelsTouchesInView = true
+        likesLabel.addGestureRecognizer(tapGesture)
+    }
+
+    @objc private func tapLikes() {
+
+        delegate?.addLikes(tag: likesLabel.tag)
     }
     
     override func prepareForReuse() {
@@ -141,6 +160,9 @@ class PostTableViewCell: UITableViewCell {
         return [
             topConstraint, leadingConstraint, trailingConstraint, bottomConstraint
         ]
+    }
+    func addTagToLabel(tag: Int) {
+        likesLabel.tag = tag
     }
 }
 

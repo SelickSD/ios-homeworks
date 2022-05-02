@@ -18,6 +18,11 @@ struct Post: Decodable {
     }
     
     let newsPost: [Article]
+
+    struct MyArticle {
+        let author, image, description: String
+        var likes, views: Int
+    }
 }
 
 

@@ -53,6 +53,7 @@ class ProfileViewController: UIViewController {
     }()
 
     private var dataSource: [Post.Article] = []
+    private var myData: [Post.MyArticle] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +69,18 @@ class ProfileViewController: UIViewController {
 
         setupView()
         setupGestures()
+        setupData()
+    }
+
+    private func setupData(){
+        for item in dataSource {
+            myData.append(Post.MyArticle.init(author: item.author,
+                                              image: item.image,
+                                              description: item.description,
+                                              likes: Int(item.likes) ?? 0,
+                                              views: Int(item.views) ?? 0))
+        }
+        dataSource.removeAll()
     }
 
     private func setupGestures() {
@@ -236,7 +249,7 @@ extension ProfileViewController: UITableViewDelegate {
         case 0:
             return 1
         case 1:
-            return self.dataSource.count
+            return self.myData.count
         default:
             return 0
         }
@@ -282,16 +295,18 @@ extension ProfileViewController: UITableViewDataSource {
         } else if indexPath.section == 1 && tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as? PostTableViewCell != nil {
 
             let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
+            cell.delegate = self
 
-            let article = self.dataSource[indexPath.row]
+            let article = self.myData[indexPath.row]
             let viewModel = PostTableViewCell.ViewModel(author: article.author,
                                                         image: article.image,
                                                         description: article.description,
-                                                        likes: Int(article.likes) ?? 0,
-                                                        views: Int(article.views) ?? 0
+                                                        likes: article.likes,
+                                                        views: article.views
             )
 
             cell.setup(with: viewModel)
+            cell.addTagToLabel(tag: indexPath.row)
             return cell
         }
 
@@ -300,3 +315,9 @@ extension ProfileViewController: UITableViewDataSource {
     }
 }
 
+extension ProfileViewController: PostTableViewCellDelegate {
+    func addLikes(tag: Int) {
+        myData[tag].likes += 1
+        postTableView.reloadData()
+    }
+}
