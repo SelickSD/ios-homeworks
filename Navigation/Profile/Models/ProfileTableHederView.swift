@@ -80,7 +80,7 @@ class ProfileHeaderView: UIView {
         button.layer.shadowOffset = CGSize(width: 4.0, height: 4.0)
         button.layer.shadowOpacity = 0.7
         button.layer.shadowRadius = 4
-        button.addTarget(self, action: #selector(self.didTapStatusButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapStatusButton), for: .touchUpInside)
         return button
     }()
 
@@ -95,7 +95,18 @@ class ProfileHeaderView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.drawSelf()
+        drawSelf()
+        setupGestures()
+    }
+
+    private func setupGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = true
+        self.addGestureRecognizer(tapGesture)
+    }
+
+    @objc private func dismissKeyboard() {
+        self.endEditing(true)
     }
 
     required init?(coder: NSCoder) {
@@ -134,9 +145,14 @@ class ProfileHeaderView: UIView {
     }
 
     @objc private func didTapStatusButton() {
+        self.endEditing(true)
+
         if statusText != nil {
             statusLabel.text = statusText
             statusTextField.text = ""
+            statusText = nil
+        } else {
+            statusTextField.shake()
         }
     }
 

@@ -95,6 +95,7 @@ class ProfileViewController: UIViewController {
     @objc private func keyBoardHide() {}
 
     @objc private func tapAction() {
+        view.endEditing(true)
 
         prepareForAnimation()
 
@@ -256,6 +257,9 @@ extension ProfileViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        view.endEditing(true)
+
         if indexPath == IndexPath(row: 0, section: 0) {
             let galleryViewController = PhotosViewController()
             navigationController?.pushViewController(galleryViewController, animated: true)
