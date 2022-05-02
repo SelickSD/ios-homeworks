@@ -181,7 +181,7 @@ class LogInViewController: UIViewController {
     @objc private func didTapLogInButton() {
         view.endEditing(true)
 
-        guard checkSecurityControl(loginTextField, passwordTextField, loginStackView, warningLabel) else { return }
+        guard SecurityService().checkSecurityControl(loginTextField, passwordTextField, loginStackView, warningLabel, self) else { return }
 
         self.navigationController?.popViewController(animated: true)
         self.navigationController?.navigationBar.isHidden = false
@@ -195,7 +195,7 @@ class LogInViewController: UIViewController {
 
     @objc private func keyBoardShow(notification: NSNotification) {
 
-        returnNormalOptions([loginTextField, passwordTextField])
+        returnNormalOptions()
 
         if let keyBoardSize =
             (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
@@ -215,6 +215,12 @@ class LogInViewController: UIViewController {
         //MARK: Удалить!!!
         self.navigationController?.popViewController(animated: true)
         self.navigationController?.navigationBar.isHidden = false
+    }
+
+    private func returnNormalOptions() {
+        [loginTextField, passwordTextField].forEach { if $0.backgroundColor == UIColor(hex: "#f2d7d5") {
+            $0.backgroundColor = .systemGray6 }
+        }
     }
 }
 

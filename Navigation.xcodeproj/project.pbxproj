@@ -16,6 +16,7 @@
 		44177B5B27DB5F85001437AC /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44177B5A27DB5F85001437AC /* TabBarController.swift */; };
 		44177B5D27DB9F73001437AC /* ProfileTableHederView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44177B5C27DB9F73001437AC /* ProfileTableHederView.swift */; };
 		44177B5F27DBB890001437AC /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44177B5E27DBB890001437AC /* PostViewController.swift */; };
+		443F48E2281F04BD007870ED /* SecurityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443F48E1281F04BD007870ED /* SecurityData.swift */; };
 		4454A07527E384DA00837DCF /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4454A07427E384DA00837DCF /* UITextField+Extension.swift */; };
 		4454A07A27E8D8F600837DCF /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4454A07927E8D8F600837DCF /* Post.swift */; };
 		4454A07C27E9026100837DCF /* post.json in Resources */ = {isa = PBXBuildFile; fileRef = 4454A07B27E8F8D800837DCF /* post.json */; };
@@ -23,7 +24,6 @@
 		4454A08127E90B9F00837DCF /* Setupable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4454A08027E90B9F00837DCF /* Setupable.swift */; };
 		44877CF4281C00D700DF0198 /* AvatarZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44877CF3281C00D700DF0198 /* AvatarZoomView.swift */; };
 		44877CF7281D9C9400DF0198 /* SecurityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44877CF6281D9C9400DF0198 /* SecurityService.swift */; };
-		44877CF9281D9EFD00DF0198 /* LogInViewController+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44877CF8281D9EFD00DF0198 /* LogInViewController+Extention.swift */; };
 		448D28A327DF9AE1004DCEEB /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448D28A227DF9AE1004DCEEB /* LogInViewController.swift */; };
 		448D28A627DFA095004DCEEB /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448D28A527DFA095004DCEEB /* UIColor+Extension.swift */; };
 		44A0CDC1281A8D6000482951 /* GalleryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A0CDC0281A8D6000482951 /* GalleryModel.swift */; };
@@ -45,6 +45,7 @@
 		44177B5A27DB5F85001437AC /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		44177B5C27DB9F73001437AC /* ProfileTableHederView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableHederView.swift; sourceTree = "<group>"; };
 		44177B5E27DBB890001437AC /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		443F48E1281F04BD007870ED /* SecurityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityData.swift; sourceTree = "<group>"; };
 		4454A07427E384DA00837DCF /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		4454A07927E8D8F600837DCF /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		4454A07B27E8F8D800837DCF /* post.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = post.json; sourceTree = "<group>"; };
@@ -52,7 +53,6 @@
 		4454A08027E90B9F00837DCF /* Setupable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setupable.swift; sourceTree = "<group>"; };
 		44877CF3281C00D700DF0198 /* AvatarZoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarZoomView.swift; sourceTree = "<group>"; };
 		44877CF6281D9C9400DF0198 /* SecurityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityService.swift; sourceTree = "<group>"; };
-		44877CF8281D9EFD00DF0198 /* LogInViewController+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LogInViewController+Extention.swift"; sourceTree = "<group>"; };
 		448D28A227DF9AE1004DCEEB /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		448D28A527DFA095004DCEEB /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		44A0CDC0281A8D6000482951 /* GalleryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryModel.swift; sourceTree = "<group>"; };
@@ -152,6 +152,7 @@
 			children = (
 				448D28A227DF9AE1004DCEEB /* LogInViewController.swift */,
 				44877CF6281D9C9400DF0198 /* SecurityService.swift */,
+				443F48E1281F04BD007870ED /* SecurityData.swift */,
 			);
 			path = Security;
 			sourceTree = "<group>";
@@ -162,7 +163,6 @@
 				448D28A527DFA095004DCEEB /* UIColor+Extension.swift */,
 				4454A07427E384DA00837DCF /* UITextField+Extension.swift */,
 				44C814CB281981C0004FCC7A /* UIView+Extention.swift */,
-				44877CF8281D9EFD00DF0198 /* LogInViewController+Extention.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -259,11 +259,11 @@
 				4414ECA327AEA99A004D5A77 /* AppDelegate.swift in Sources */,
 				44C814CC281981C0004FCC7A /* UIView+Extention.swift in Sources */,
 				4454A07E27E90A4500837DCF /* PostTableViewCell.swift in Sources */,
+				443F48E2281F04BD007870ED /* SecurityData.swift in Sources */,
 				44177B5D27DB9F73001437AC /* ProfileTableHederView.swift in Sources */,
 				44C814CA281968D9004FCC7A /* PhotosTableViewCell.swift in Sources */,
 				4454A07A27E8D8F600837DCF /* Post.swift in Sources */,
 				44177B5F27DBB890001437AC /* PostViewController.swift in Sources */,
-				44877CF9281D9EFD00DF0198 /* LogInViewController+Extention.swift in Sources */,
 				448D28A627DFA095004DCEEB /* UIColor+Extension.swift in Sources */,
 				44C814CF28199EA7004FCC7A /* PhotosViewController.swift in Sources */,
 				44177B5927DB5F1D001437AC /* FeedViewController.swift in Sources */,
