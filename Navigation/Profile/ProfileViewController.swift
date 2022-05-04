@@ -16,6 +16,7 @@ class ProfileViewController: UIViewController {
     private var avatarLeadingAnchor = NSLayoutConstraint()
     private var avatarWidthAnchor = NSLayoutConstraint()
     private var avatarHeightAnchor = NSLayoutConstraint()
+    private var tempLabel: String?
 
     private lazy var postTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -70,6 +71,8 @@ class ProfileViewController: UIViewController {
         setupView()
         setupGestures()
         setupData()
+
+        tempLabel = navigationItem.title
     }
 
 
@@ -91,9 +94,11 @@ class ProfileViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+//        print(tempLabel)
         super.viewWillAppear(animated)
 
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = tempLabel
 
         notificationCenter.addObserver(self, selector: #selector(keyBoardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(keyBoardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -102,7 +107,7 @@ class ProfileViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        
+        navigationItem.title = ""
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -218,11 +223,14 @@ class ProfileViewController: UIViewController {
     //MARK: Переписать! Констрейнты вернуть в функцию и убрать переменные
 
     private var topViewConstraint = NSLayoutConstraint()
-    private var leadingViewConstraint: NSLayoutConstraint!
-    private var trailingViewConstraint: NSLayoutConstraint!
-    private var bottomViewConstraint: NSLayoutConstraint!
+    private var leadingViewConstraint = NSLayoutConstraint()
+    private var trailingViewConstraint = NSLayoutConstraint()
+    private var bottomViewConstraint = NSLayoutConstraint()
 
     private func setupView() {
+
+
+        tempLabel = self.title
 
         self.view.addSubview(self.postTableView)
 
