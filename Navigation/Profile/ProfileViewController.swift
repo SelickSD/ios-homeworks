@@ -72,6 +72,7 @@ class ProfileViewController: UIViewController {
         setupData()
     }
 
+
     private func setupData(){
         for item in dataSource {
             myData.append(Post.MyArticle.init(author: item.author,
@@ -92,8 +93,16 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+
         notificationCenter.addObserver(self, selector: #selector(keyBoardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(keyBoardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -206,14 +215,28 @@ class ProfileViewController: UIViewController {
         self.view.layoutIfNeeded()
     }
 
+    //MARK: Переписать! Констрейнты вернуть в функцию и убрать переменные
+
+    private var topViewConstraint = NSLayoutConstraint()
+    private var leadingViewConstraint: NSLayoutConstraint!
+    private var trailingViewConstraint: NSLayoutConstraint!
+    private var bottomViewConstraint: NSLayoutConstraint!
+
     private func setupView() {
 
         self.view.addSubview(self.postTableView)
 
-        let topViewConstraint = self.postTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-        let leadingViewConstraint = self.postTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
-        let trailingViewConstraint = self.postTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-        let bottomViewConstraint = self.postTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        topViewConstraint = self.postTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
+        leadingViewConstraint = self.postTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
+        trailingViewConstraint = self.postTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        bottomViewConstraint = self.postTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+
+        topViewConstraint.priority = UILayoutPriority(900)
+        leadingViewConstraint.priority = UILayoutPriority(900)
+        trailingViewConstraint.priority = UILayoutPriority(900)
+        bottomViewConstraint.priority = UILayoutPriority(900)
+
+
 
         NSLayoutConstraint.activate([
             topViewConstraint, leadingViewConstraint, trailingViewConstraint, bottomViewConstraint
@@ -278,8 +301,35 @@ extension ProfileViewController: UITableViewDelegate {
             navigationController?.pushViewController(galleryViewController, animated: true)
 
             tableView.deselectRow(at: indexPath, animated: false)
+        } else {
+            let postViewController = PostViewController()
+            navigationController?.pushViewController(postViewController, animated: true)
+            postViewController.setupPost(article: myData[indexPath.row])
+            myData[indexPath.row].views += 1
+            postTableView.reloadData()
         }
     }
+
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+
+        if indexPath.section > 0 {
+            return .delete
+        } else {
+            return .none
+        }
+
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+
+        if editingStyle == .delete && indexPath.section > 0 {
+            myData.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .left)
+            postTableView.reloadData()
+        }
+    }
+
+
 }
 //MARK: - UITableViewDataSource
 

@@ -114,6 +114,7 @@
 			children = (
 				4454A07827E8D8DC00837DCF /* Models */,
 				44177B5627DB5F0B001437AC /* ProfileViewController.swift */,
+				44177B5E27DBB890001437AC /* PostViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -122,7 +123,6 @@
 			isa = PBXGroup;
 			children = (
 				44177B5827DB5F1D001437AC /* FeedViewController.swift */,
-				44177B5E27DBB890001437AC /* PostViewController.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";

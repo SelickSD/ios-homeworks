@@ -135,6 +135,7 @@ class PostTableViewCell: UITableViewCell {
         let stackViewConstraints = self.stackViewConstraints()
         
         let imageViewAspectRatio = self.iconView.heightAnchor.constraint(equalTo: self.iconView.widthAnchor, multiplier: 1.0)
+        imageViewAspectRatio.priority = UILayoutPriority(900)
         
         NSLayoutConstraint.activate(backViewConstraints + stackViewConstraints + [imageViewAspectRatio])
         
@@ -145,6 +146,8 @@ class PostTableViewCell: UITableViewCell {
         let leadingConstraint = self.backView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor)
         let trailingConstraint = self.backView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
         let bottomConstraint = self.backView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+
+        bottomConstraint.priority = UILayoutPriority(900)
         
         return [
             topConstraint, leadingConstraint, trailingConstraint, bottomConstraint
@@ -156,6 +159,8 @@ class PostTableViewCell: UITableViewCell {
         let leadingConstraint = self.stackView.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 8)
         let trailingConstraint = self.stackView.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor, constant: -8)
         let bottomConstraint = self.stackView.bottomAnchor.constraint(equalTo: self.backView.bottomAnchor)
+
+        bottomConstraint.priority = UILayoutPriority(900)
         
         return [
             topConstraint, leadingConstraint, trailingConstraint, bottomConstraint
