@@ -9,6 +9,12 @@ import UIKit
 
 class PostViewController: UIViewController {
 
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -54,16 +60,27 @@ class PostViewController: UIViewController {
     private func setupLayout() {
         let screenHeight = UIScreen.main.bounds.height
 
-        view.addSubview(backView)
+        view.addSubview(scrollView)
+
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+
+        scrollView.addSubview(backView)
         backView.addSubview(iconView)
         backView.addSubview(descriptionLabel)
 
         NSLayoutConstraint.activate([
-            backView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            backView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
+            backView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            backView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            backView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            backView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            backView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
             iconView.topAnchor.constraint(equalTo: backView.topAnchor),
             iconView.leadingAnchor.constraint(equalTo: backView.leadingAnchor),
             iconView.trailingAnchor.constraint(equalTo: backView.trailingAnchor),
@@ -71,7 +88,8 @@ class PostViewController: UIViewController {
             iconView.heightAnchor.constraint(equalToConstant: screenHeight / 2),
 
             descriptionLabel.leadingAnchor.constraint(equalTo: backView.leadingAnchor),
-            descriptionLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor)
+            descriptionLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor),
+            descriptionLabel.bottomAnchor.constraint(equalTo: backView.bottomAnchor)
         ])
     }
 }
