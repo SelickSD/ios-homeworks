@@ -105,10 +105,6 @@ class ProfileHeaderView: UIView {
         self.addGestureRecognizer(tapGesture)
     }
 
-    @objc private func dismissKeyboard() {
-        self.endEditing(true)
-    }
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -123,11 +119,18 @@ class ProfileHeaderView: UIView {
         self.labelStackView.addArrangedSubview(statusTextField)
         self.labelStackView.addArrangedSubview(setStatusButton)
 
+        let avatarImageViewHeightAnchor = avatarImageView.heightAnchor.constraint(equalToConstant: 150)
+        avatarImageViewHeightAnchor.priority = UILayoutPriority(900)
+        let avatarImageViewWidthAnchor = avatarImageView.widthAnchor.constraint(equalToConstant: 150)
+        avatarImageViewWidthAnchor.priority = UILayoutPriority(900)
+        let backViewBottomAnchor = backView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        backViewBottomAnchor.priority = UILayoutPriority(900)
+
         NSLayoutConstraint.activate([
             backView.topAnchor.constraint(equalTo: self.topAnchor),
             backView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             backView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            backView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            backViewBottomAnchor
         ])
 
         NSLayoutConstraint.activate([
@@ -139,9 +142,13 @@ class ProfileHeaderView: UIView {
             avatarImageView.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 16),
             avatarImageView.trailingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: -8),
             avatarImageView.bottomAnchor.constraint(equalTo: backView.bottomAnchor),
-            avatarImageView.widthAnchor.constraint(equalToConstant: 150),
-            avatarImageView.heightAnchor.constraint(equalToConstant: 150)
+            avatarImageViewHeightAnchor,
+            avatarImageViewWidthAnchor
         ])
+    }
+
+    @objc private func dismissKeyboard() {
+        self.endEditing(true)
     }
 
     @objc private func didTapStatusButton() {

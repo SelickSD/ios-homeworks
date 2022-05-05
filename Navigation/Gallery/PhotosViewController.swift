@@ -16,9 +16,6 @@ class PhotosViewController: UIViewController {
     private var avatarHeightAnchor = NSLayoutConstraint()
     private var avatarTopAnchor = NSLayoutConstraint()
     private var avatarLeadingAnchor = NSLayoutConstraint()
-
-//    private var TopAnchor = NSLayoutConstraint()
-//    private var LeadingAnchor = NSLayoutConstraint()
     private var WidthAnchor = NSLayoutConstraint()
     private var HeightAnchor = NSLayoutConstraint()
 
@@ -73,7 +70,7 @@ class PhotosViewController: UIViewController {
         ])
     }
 
-    private func loadConstraint(cell: PhotosCollectionViewCell, index: Int, view: GalleryPhotosZoomView) {
+    private func loadConstraint(cell: PhotosCollectionViewCell, view: GalleryPhotosZoomView) {
 
         avatarCenterX = view.centerXAnchor.constraint(equalTo: cell.centerXAnchor)
         avatarCenterX.priority = UILayoutPriority(900)
@@ -119,7 +116,7 @@ class PhotosViewController: UIViewController {
             closeButton.widthAnchor.constraint(equalToConstant: 40)
         ])
 
-        loadConstraint(cell: cell, index: index, view: photoZoom)
+        loadConstraint(cell: cell, view: photoZoom)
 
         view.layoutIfNeeded()
     }
@@ -222,7 +219,6 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
             self.view.layoutIfNeeded()
         }
     }
-
 }
 
 //MARK: - UICollectionViewDataSource

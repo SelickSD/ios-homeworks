@@ -11,12 +11,17 @@ class ProfileViewController: UIViewController {
 
     private let notificationCenter = NotificationCenter.default
     private let headerView = ProfileHeaderView()
-
     private var avatarTopAnchor = NSLayoutConstraint()
     private var avatarLeadingAnchor = NSLayoutConstraint()
     private var avatarWidthAnchor = NSLayoutConstraint()
     private var avatarHeightAnchor = NSLayoutConstraint()
     private var tempLabel: String?
+    private var dataSource: [Post.Article] = []
+    private var myData: [Post.MyArticle] = []
+    private var topViewConstraint = NSLayoutConstraint()
+    private var leadingViewConstraint = NSLayoutConstraint()
+    private var trailingViewConstraint = NSLayoutConstraint()
+    private var bottomViewConstraint = NSLayoutConstraint()
 
     private lazy var postTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -53,9 +58,6 @@ class ProfileViewController: UIViewController {
         return JSONDecoder()
     }()
 
-    private var dataSource: [Post.Article] = []
-    private var myData: [Post.MyArticle] = []
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -75,26 +77,7 @@ class ProfileViewController: UIViewController {
         tempLabel = navigationItem.title
     }
 
-
-    private func setupData(){
-        for item in dataSource {
-            myData.append(Post.MyArticle.init(author: item.author,
-                                              image: item.image,
-                                              description: item.description,
-                                              likes: Int(item.likes) ?? 0,
-                                              views: Int(item.views) ?? 0))
-        }
-        dataSource.removeAll()
-    }
-
-    private func setupGestures() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-        headerView.avatarImageView.isUserInteractionEnabled = true
-        headerView.avatarImageView.addGestureRecognizer(tapGesture)
-    }
-
     override func viewWillAppear(_ animated: Bool) {
-//        print(tempLabel)
         super.viewWillAppear(animated)
 
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -117,36 +100,21 @@ class ProfileViewController: UIViewController {
         notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
-    @objc private func keyBoardShow() {}
-
-    @objc private func keyBoardHide() {}
-
-    @objc private func tapAction() {
-        view.endEditing(true)
-
-        prepareForAnimation()
-
-        UIView.animate(withDuration: 0.5, delay: 0.0) {
-            self.greyBackView.alpha = 0.9
+    private func setupData(){
+        for item in dataSource {
+            myData.append(Post.MyArticle.init(author: item.author,
+                                              image: item.image,
+                                              description: item.description,
+                                              likes: Int(item.likes) ?? 0,
+                                              views: Int(item.views) ?? 0))
         }
-        UIView.animate(withDuration: 0.3, delay: 0.5) {
-            self.closeButton.alpha = 0.9
-        }
+        dataSource.removeAll()
+    }
 
-        UIView.animate(withDuration: 0.5, delay: 0.0) {
-
-            guard let avatarZoom = self.view.viewWithTag(100) as? AvatarZoomView else { return }
-
-            let avatarNewWidth = UIScreen.main.bounds.width / 3 * 2
-            avatarZoom.avatarImageView.layer.cornerRadius = 0
-
-            self.avatarTopAnchor.constant = UIScreen.main.bounds.width - avatarNewWidth
-            self.avatarLeadingAnchor.constant = (UIScreen.main.bounds.width - avatarNewWidth) / 2
-            self.avatarHeightAnchor.constant = avatarNewWidth
-            self.avatarWidthAnchor.constant = avatarNewWidth
-
-            self.view.layoutIfNeeded()
-        }
+    private func setupGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+        headerView.avatarImageView.isUserInteractionEnabled = true
+        headerView.avatarImageView.addGestureRecognizer(tapGesture)
     }
 
     private func prepareForAnimation() {
@@ -180,6 +148,71 @@ class ProfileViewController: UIViewController {
         ])
 
         view.layoutIfNeeded()
+    }
+
+    private func setupView() {
+
+        self.view.addSubview(self.postTableView)
+
+        topViewConstraint = self.postTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
+        leadingViewConstraint = self.postTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
+        trailingViewConstraint = self.postTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        bottomViewConstraint = self.postTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+
+        topViewConstraint.priority = UILayoutPriority(900)
+        leadingViewConstraint.priority = UILayoutPriority(900)
+        trailingViewConstraint.priority = UILayoutPriority(900)
+        bottomViewConstraint.priority = UILayoutPriority(900)
+
+        NSLayoutConstraint.activate([
+            topViewConstraint, leadingViewConstraint, trailingViewConstraint, bottomViewConstraint
+        ])
+    }
+
+    private func fetchArticles(completion: @escaping ([Post.Article]) -> Void) {
+        if let path = Bundle.main.path(forResource: "post", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
+                let post = try self.jsonDecoder.decode(Post.self, from: data)
+                completion(post.newsPost)
+            } catch let error {
+                print("parse error: \(error.localizedDescription)")
+            }
+        } else {
+            fatalError("Invalid filename/path.")
+        }
+    }
+
+    @objc private func keyBoardShow() {}
+
+    @objc private func keyBoardHide() {}
+
+    @objc private func tapAction() {
+        view.endEditing(true)
+
+        prepareForAnimation()
+
+        UIView.animate(withDuration: 0.5, delay: 0.0) {
+            self.greyBackView.alpha = 0.9
+        }
+        UIView.animate(withDuration: 0.3, delay: 0.5) {
+            self.closeButton.alpha = 0.9
+        }
+
+        UIView.animate(withDuration: 0.5, delay: 0.0) {
+
+            guard let avatarZoom = self.view.viewWithTag(100) as? AvatarZoomView else { return }
+
+            let avatarNewWidth = UIScreen.main.bounds.width / 3 * 2
+            avatarZoom.avatarImageView.layer.cornerRadius = 0
+
+            self.avatarTopAnchor.constant = UIScreen.main.bounds.width - avatarNewWidth
+            self.avatarLeadingAnchor.constant = (UIScreen.main.bounds.width - avatarNewWidth) / 2
+            self.avatarHeightAnchor.constant = avatarNewWidth
+            self.avatarWidthAnchor.constant = avatarNewWidth
+
+            self.view.layoutIfNeeded()
+        }
     }
 
     @objc private func didTapCloseButton() {
@@ -218,51 +251,6 @@ class ProfileViewController: UIViewController {
         greyBackView.removeFromSuperview()
 
         self.view.layoutIfNeeded()
-    }
-
-    //MARK: Переписать! Констрейнты вернуть в функцию и убрать переменные
-
-    private var topViewConstraint = NSLayoutConstraint()
-    private var leadingViewConstraint = NSLayoutConstraint()
-    private var trailingViewConstraint = NSLayoutConstraint()
-    private var bottomViewConstraint = NSLayoutConstraint()
-
-    private func setupView() {
-
-
-        tempLabel = self.title
-
-        self.view.addSubview(self.postTableView)
-
-        topViewConstraint = self.postTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-        leadingViewConstraint = self.postTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
-        trailingViewConstraint = self.postTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-        bottomViewConstraint = self.postTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-
-        topViewConstraint.priority = UILayoutPriority(900)
-        leadingViewConstraint.priority = UILayoutPriority(900)
-        trailingViewConstraint.priority = UILayoutPriority(900)
-        bottomViewConstraint.priority = UILayoutPriority(900)
-
-
-
-        NSLayoutConstraint.activate([
-            topViewConstraint, leadingViewConstraint, trailingViewConstraint, bottomViewConstraint
-        ])
-    }
-
-    private func fetchArticles(completion: @escaping ([Post.Article]) -> Void) {
-        if let path = Bundle.main.path(forResource: "post", ofType: "json") {
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
-                let post = try self.jsonDecoder.decode(Post.self, from: data)
-                completion(post.newsPost)
-            } catch let error {
-                print("parse error: \(error.localizedDescription)")
-            }
-        } else {
-            fatalError("Invalid filename/path.")
-        }
     }
 }
 
@@ -325,7 +313,6 @@ extension ProfileViewController: UITableViewDelegate {
         } else {
             return .none
         }
-
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -336,8 +323,6 @@ extension ProfileViewController: UITableViewDelegate {
             postTableView.reloadData()
         }
     }
-
-
 }
 //MARK: - UITableViewDataSource
 
@@ -372,6 +357,8 @@ extension ProfileViewController: UITableViewDataSource {
         return cell
     }
 }
+
+//MARK: - PostTableViewCellDelegate
 
 extension ProfileViewController: PostTableViewCellDelegate {
     func addLikes(tag: Int) {

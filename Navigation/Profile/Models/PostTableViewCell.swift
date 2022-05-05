@@ -12,7 +12,7 @@ protocol PostTableViewCellDelegate: AnyObject {
 }
 
 class PostTableViewCell: UITableViewCell {
-
+    
     weak var delegate: PostTableViewCellDelegate?
     
     struct ViewModel: ViewModelProtocol {
@@ -98,17 +98,6 @@ class PostTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    private func setupGestures() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapLikes))
-        tapGesture.cancelsTouchesInView = true
-        likesLabel.addGestureRecognizer(tapGesture)
-    }
-
-    @objc private func tapLikes() {
-
-        delegate?.addLikes(tag: likesLabel.tag)
-    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -118,6 +107,16 @@ class PostTableViewCell: UITableViewCell {
         self.likesLabel.text = nil
         self.viewsLabel.text = nil
         self.iconView.image = nil
+    }
+    
+    func addTagToLabel(tag: Int) {
+        likesLabel.tag = tag
+    }
+    
+    private func setupGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapLikes))
+        tapGesture.cancelsTouchesInView = true
+        likesLabel.addGestureRecognizer(tapGesture)
     }
     
     private func setupView() {
@@ -131,43 +130,34 @@ class PostTableViewCell: UITableViewCell {
         self.statusView.addArrangedSubview(likesLabel)
         self.statusView.addArrangedSubview(viewsLabel)
         
-        let backViewConstraints = self.backViewConstraints()
-        let stackViewConstraints = self.stackViewConstraints()
+        let backViewBottomConstraint = self.backView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+        backViewBottomConstraint.priority = UILayoutPriority(900)
+        
+        NSLayoutConstraint.activate([
+            backView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            backView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            backView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            backViewBottomConstraint
+        ])
+        
+        let stackViewBottomConstraint = self.stackView.bottomAnchor.constraint(equalTo: self.backView.bottomAnchor)
+        stackViewBottomConstraint.priority = UILayoutPriority(900)
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: self.backView.topAnchor, constant: 16),
+            stackView.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 8),
+            stackView.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor, constant: -8),
+            stackViewBottomConstraint
+        ])
         
         let imageViewAspectRatio = self.iconView.heightAnchor.constraint(equalTo: self.iconView.widthAnchor, multiplier: 1.0)
         imageViewAspectRatio.priority = UILayoutPriority(900)
         
-        NSLayoutConstraint.activate(backViewConstraints + stackViewConstraints + [imageViewAspectRatio])
-        
+        NSLayoutConstraint.activate([imageViewAspectRatio])
     }
     
-    private func backViewConstraints() -> [NSLayoutConstraint] {
-        let topConstraint = self.backView.topAnchor.constraint(equalTo: self.contentView.topAnchor)
-        let leadingConstraint = self.backView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor)
-        let trailingConstraint = self.backView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
-        let bottomConstraint = self.backView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
-
-        bottomConstraint.priority = UILayoutPriority(900)
-        
-        return [
-            topConstraint, leadingConstraint, trailingConstraint, bottomConstraint
-        ]
-    }
-    
-    private func stackViewConstraints() -> [NSLayoutConstraint] {
-        let topConstraint = self.stackView.topAnchor.constraint(equalTo: self.backView.topAnchor, constant: 16)
-        let leadingConstraint = self.stackView.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 8)
-        let trailingConstraint = self.stackView.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor, constant: -8)
-        let bottomConstraint = self.stackView.bottomAnchor.constraint(equalTo: self.backView.bottomAnchor)
-
-        bottomConstraint.priority = UILayoutPriority(900)
-        
-        return [
-            topConstraint, leadingConstraint, trailingConstraint, bottomConstraint
-        ]
-    }
-    func addTagToLabel(tag: Int) {
-        likesLabel.tag = tag
+    @objc private func tapLikes() {
+        delegate?.addLikes(tag: likesLabel.tag)
     }
 }
 

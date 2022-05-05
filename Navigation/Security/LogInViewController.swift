@@ -178,6 +178,18 @@ class LogInViewController: UIViewController {
         ])
     }
 
+    private func setupGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = true
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    private func returnNormalOptions() {
+        [loginTextField, passwordTextField].forEach { if $0.backgroundColor == UIColor(hex: "#f2d7d5") {
+            $0.backgroundColor = .systemGray6 }
+        }
+    }
+
     @objc private func didTapLogInButton() {
         view.endEditing(true)
 
@@ -185,12 +197,6 @@ class LogInViewController: UIViewController {
 
         self.navigationController?.popViewController(animated: true)
         self.navigationController?.navigationBar.isHidden = false
-    }
-
-    private func setupGestures() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tapGesture.cancelsTouchesInView = true
-        view.addGestureRecognizer(tapGesture)
     }
 
     @objc private func keyBoardShow(notification: NSNotification) {
@@ -216,12 +222,6 @@ class LogInViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
         self.navigationController?.navigationBar.isHidden = false
     }
-
-    private func returnNormalOptions() {
-        [loginTextField, passwordTextField].forEach { if $0.backgroundColor == UIColor(hex: "#f2d7d5") {
-            $0.backgroundColor = .systemGray6 }
-        }
-    }
 }
 
 //MARK: - UITextFieldDelegate
@@ -232,7 +232,3 @@ extension LogInViewController: UITextFieldDelegate {
         return true
     }
 }
-
-
-
-

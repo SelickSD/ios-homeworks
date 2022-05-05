@@ -34,6 +34,10 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func setupCell(_ gallery: GalleryModel) {
+        galleryImageView.image = gallery.image
+    }
+
     private func setupLayout() {
         contentView.addSubview(whiteView)
         whiteView.addSubview(galleryImageView)
@@ -49,9 +53,5 @@ class PhotosCollectionViewCell: UICollectionViewCell {
             galleryImageView.trailingAnchor.constraint(equalTo: whiteView.trailingAnchor),
             galleryImageView.bottomAnchor.constraint(equalTo: whiteView.bottomAnchor)
         ])
-    }
-
-    func setupCell(_ gallery: GalleryModel) {
-        galleryImageView.image = gallery.image
     }
 }
