@@ -1,15 +1,15 @@
 //
-//  FeedViewController.swift
+//  PhotosViewController.swift
 //  Navigation
 //
-//  Created by Сергей Денисенко on 11.03.2022.
+//  Created by Сергей Денисенко on 27.04.2022.
 //
 
 import UIKit
 
-class FeedViewController: UIViewController {
+class PhotosViewController: UIViewController {
 
-    private let gallery = FeedModel.showGallery()
+    private let gallery = GalleryModel.showGallery()
     private var avatarCenterY = NSLayoutConstraint()
     private var avatarCenterX = NSLayoutConstraint()
     private var avatarWidthAnchor = NSLayoutConstraint()
@@ -27,7 +27,7 @@ class FeedViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(FeedCollectionViewCell.self, forCellWithReuseIdentifier: FeedCollectionViewCell.identifier)
+        collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: PhotosCollectionViewCell.identifier)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "DefaultCell")
         return collectionView
     }()
@@ -58,7 +58,7 @@ class FeedViewController: UIViewController {
     }
 
     private func setupLayout() {
-        self.title = "Feed"
+        self.title = "Photo Gallery"
 
         view.addSubview(galleryCollectionView)
 
@@ -70,7 +70,7 @@ class FeedViewController: UIViewController {
         ])
     }
 
-    private func loadConstraint(cell: FeedCollectionViewCell, view: FeedZoomView) {
+    private func loadConstraint(cell: PhotosCollectionViewCell, view: GalleryPhotosZoomView) {
 
         avatarCenterX = view.centerXAnchor.constraint(equalTo: cell.centerXAnchor)
         avatarCenterX.priority = UILayoutPriority(900)
@@ -94,9 +94,9 @@ class FeedViewController: UIViewController {
         ])
     }
 
-    private func prepareForAnimation(cell: FeedCollectionViewCell, index: Int) {
+    private func prepareForAnimation(cell: PhotosCollectionViewCell, index: Int) {
 
-        let photoZoom = FeedZoomView()
+        let photoZoom = GalleryPhotosZoomView()
         photoZoom.setupPhotos(photo: gallery[index].image)
         photoZoom.tag = 100
 
@@ -123,7 +123,7 @@ class FeedViewController: UIViewController {
 
     @objc private func didTapCloseButton() {
 
-        guard let photoZoom = self.view.viewWithTag(100) as? FeedZoomView else { return }
+        guard let photoZoom = self.view.viewWithTag(100) as? GalleryPhotosZoomView else { return }
 
         self.avatarTopAnchor.priority = UILayoutPriority(800)
         self.avatarLeadingAnchor.priority = UILayoutPriority(800)
@@ -159,7 +159,7 @@ class FeedViewController: UIViewController {
     }
 
     @objc private func closeSubView() {
-        guard let photoZoom = self.view.viewWithTag(100) as? FeedZoomView else { return }
+        guard let photoZoom = self.view.viewWithTag(100) as? GalleryPhotosZoomView else { return }
 
         closeButton.removeFromSuperview()
         photoZoom.removeFromSuperview()
@@ -171,13 +171,13 @@ class FeedViewController: UIViewController {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
-extension FeedViewController: UICollectionViewDelegateFlowLayout {
+extension PhotosViewController: UICollectionViewDelegateFlowLayout {
 
     private var sideInset: CGFloat { return 8 }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let width = (collectionView.bounds.width - sideInset * 3) / 2
+        let width = (collectionView.bounds.width - sideInset * 4) / 3
         return CGSize(width: width, height: width)
     }
 
@@ -190,7 +190,7 @@ extension FeedViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! FeedCollectionViewCell
+        let cell = collectionView.cellForItem(at: indexPath) as! PhotosCollectionViewCell
         prepareForAnimation(cell: cell, index: indexPath.item)
 
         self.avatarTopAnchor.priority = UILayoutPriority(950)
@@ -205,12 +205,12 @@ extension FeedViewController: UICollectionViewDelegateFlowLayout {
 
         UIView.animate(withDuration: 0.5, delay: 0.0) {
 
-            guard let photoZoom = self.view.viewWithTag(100) as? FeedZoomView else { return }
+            guard let photoZoom = self.view.viewWithTag(100) as? GalleryPhotosZoomView else { return }
 
-            let avatarNewWidth = UIScreen.main.bounds.width / 4 * 2
+            let avatarNewWidth = UIScreen.main.bounds.width / 3 * 2
             photoZoom.avatarImageView.layer.cornerRadius = 0
 
-            self.avatarTopAnchor.constant = UIScreen.main.bounds.width - avatarNewWidth * 1.5
+            self.avatarTopAnchor.constant = UIScreen.main.bounds.width - avatarNewWidth
             self.avatarLeadingAnchor.constant = 5
 
             self.avatarHeightAnchor.constant = avatarNewWidth
@@ -223,7 +223,7 @@ extension FeedViewController: UICollectionViewDelegateFlowLayout {
 
 //MARK: - UICollectionViewDataSource
 
-extension FeedViewController: UICollectionViewDataSource {
+extension PhotosViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return gallery.count
@@ -231,9 +231,8 @@ extension FeedViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionViewCell.identifier, for: indexPath) as! FeedCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.identifier, for: indexPath) as! PhotosCollectionViewCell
         cell.setupCell(gallery[indexPath.item])
         return cell
     }
 }
-

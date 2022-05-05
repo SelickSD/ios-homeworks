@@ -28,6 +28,9 @@
 		448D28A327DF9AE1004DCEEB /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448D28A227DF9AE1004DCEEB /* LogInViewController.swift */; };
 		448D28A627DFA095004DCEEB /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448D28A527DFA095004DCEEB /* UIColor+Extension.swift */; };
 		44A0CDC1281A8D6000482951 /* GalleryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A0CDC0281A8D6000482951 /* GalleryModel.swift */; };
+		44B1D014282432F9005E6209 /* FeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B1D013282432F9005E6209 /* FeedCollectionViewCell.swift */; };
+		44B1D0162824331A005E6209 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B1D0152824331A005E6209 /* FeedModel.swift */; };
+		44B1D0182824333F005E6209 /* FeedZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B1D0172824333F005E6209 /* FeedZoomView.swift */; };
 		44C814CA281968D9004FCC7A /* PhotosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C814C9281968D9004FCC7A /* PhotosTableViewCell.swift */; };
 		44C814CC281981C0004FCC7A /* UIView+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C814CB281981C0004FCC7A /* UIView+Extention.swift */; };
 		44C814CF28199EA7004FCC7A /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C814CE28199EA7004FCC7A /* PhotosViewController.swift */; };
@@ -58,6 +61,9 @@
 		448D28A227DF9AE1004DCEEB /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		448D28A527DFA095004DCEEB /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		44A0CDC0281A8D6000482951 /* GalleryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryModel.swift; sourceTree = "<group>"; };
+		44B1D013282432F9005E6209 /* FeedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionViewCell.swift; sourceTree = "<group>"; };
+		44B1D0152824331A005E6209 /* FeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
+		44B1D0172824333F005E6209 /* FeedZoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedZoomView.swift; sourceTree = "<group>"; };
 		44C814C9281968D9004FCC7A /* PhotosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosTableViewCell.swift; sourceTree = "<group>"; };
 		44C814CB281981C0004FCC7A /* UIView+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extention.swift"; sourceTree = "<group>"; };
 		44C814CE28199EA7004FCC7A /* PhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +130,7 @@
 		44177B5527DB5EBB001437AC /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				44B1D0122824329F005E6209 /* Models */,
 				44177B5827DB5F1D001437AC /* FeedViewController.swift */,
 			);
 			path = Feed;
@@ -167,6 +174,16 @@
 				44C814CB281981C0004FCC7A /* UIView+Extention.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		44B1D0122824329F005E6209 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				44B1D013282432F9005E6209 /* FeedCollectionViewCell.swift */,
+				44B1D0152824331A005E6209 /* FeedModel.swift */,
+				44B1D0172824333F005E6209 /* FeedZoomView.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		44C814CD28199E5B004FCC7A /* Gallery */ = {
@@ -266,9 +283,12 @@
 				44177B5D27DB9F73001437AC /* ProfileTableHederView.swift in Sources */,
 				44C814CA281968D9004FCC7A /* PhotosTableViewCell.swift in Sources */,
 				4454A07A27E8D8F600837DCF /* Post.swift in Sources */,
+				44B1D0182824333F005E6209 /* FeedZoomView.swift in Sources */,
+				44B1D0162824331A005E6209 /* FeedModel.swift in Sources */,
 				44177B5F27DBB890001437AC /* PostViewController.swift in Sources */,
 				448D28A627DFA095004DCEEB /* UIColor+Extension.swift in Sources */,
 				44C814CF28199EA7004FCC7A /* PhotosViewController.swift in Sources */,
+				44B1D014282432F9005E6209 /* FeedCollectionViewCell.swift in Sources */,
 				44177B5927DB5F1D001437AC /* FeedViewController.swift in Sources */,
 				44A0CDC1281A8D6000482951 /* GalleryModel.swift in Sources */,
 				4454A07527E384DA00837DCF /* UITextField+Extension.swift in Sources */,
