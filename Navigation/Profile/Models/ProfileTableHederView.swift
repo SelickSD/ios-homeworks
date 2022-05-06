@@ -61,6 +61,7 @@ class ProfileHeaderView: UIView {
         textField.indent(size: 8)
         textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
         textField.placeholder = "Введи новый статус"
+        textField.delegate = self
         return textField
     }()
 
@@ -120,22 +121,20 @@ class ProfileHeaderView: UIView {
         self.labelStackView.addArrangedSubview(statusTextField)
         self.labelStackView.addArrangedSubview(setStatusButton)
 
-        let topBackView = self.backView.topAnchor.constraint(equalTo: self.topAnchor)
-        let leadBackView = self.backView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
-        let trailBackView = self.backView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        let heightBackView = self.backView.heightAnchor.constraint(equalToConstant: 150)
-
-        //Setup infoStackView
-        let topConstraint = self.infoStackView.topAnchor.constraint(equalTo: self.backView.topAnchor)
-        let leadingConstraint = self.infoStackView.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 16)
-        let trailingConstraint = self.infoStackView.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor, constant: -16)
-        let bottomConstraint = self.infoStackView.bottomAnchor.constraint(equalTo: self.backView.bottomAnchor, constant: -8)
-
-        //Setup imageView ratio
-        let imageViewAspectRatio = self.avatarImageView.heightAnchor.constraint(equalTo: self.avatarImageView.widthAnchor, multiplier: 1.0)
+        NSLayoutConstraint.activate([
+            backView.topAnchor.constraint(equalTo: self.topAnchor),
+            backView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            backView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            backView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
 
         NSLayoutConstraint.activate([
-            topConstraint, leadingConstraint, trailingConstraint, bottomConstraint, imageViewAspectRatio, topBackView, leadBackView, trailBackView, heightBackView
+            infoStackView.topAnchor.constraint(equalTo: backView.topAnchor),
+            infoStackView.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 16),
+            infoStackView.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -16),
+            infoStackView.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -8),
+
+            avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor, multiplier: 1.0)
         ])
     }
 
@@ -150,4 +149,14 @@ class ProfileHeaderView: UIView {
         statusText = textField.text
     }
 }
+
+///MARK: - UITextFieldDelegate
+
+extension ProfileHeaderView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.endEditing(true)
+        return true
+    }
+}
+
 
