@@ -217,10 +217,6 @@ class LogInViewController: UIViewController {
 
     @objc private func dismissKeyboard() {
         view.endEditing(true)
-
-        //MARK: Удалить!!!
-        self.navigationController?.popViewController(animated: true)
-        self.navigationController?.navigationBar.isHidden = false
     }
 }
 
