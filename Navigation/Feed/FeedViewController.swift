@@ -58,8 +58,6 @@ class FeedViewController: UIViewController {
     }
 
     private func setupLayout() {
-        self.title = "Feed"
-
         view.addSubview(galleryCollectionView)
 
         NSLayoutConstraint.activate([
@@ -175,48 +173,56 @@ extension FeedViewController: UICollectionViewDelegateFlowLayout {
 
     private var sideInset: CGFloat { return 8 }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         let width = (collectionView.bounds.width - sideInset * 3) / 2
         return CGSize(width: width, height: width)
+
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(top: sideInset, left: sideInset, bottom: sideInset, right: sideInset)
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return sideInset
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! FeedCollectionViewCell
-        prepareForAnimation(cell: cell, index: indexPath.item)
 
-        self.avatarTopAnchor.priority = UILayoutPriority(950)
-        self.avatarLeadingAnchor.priority = UILayoutPriority(950)
+        if UIDevice.current.orientation.isPortrait {
+            let cell = collectionView.cellForItem(at: indexPath) as! FeedCollectionViewCell
 
-        UIView.animate(withDuration: 0.5, delay: 0.0) {
-            self.greyBackView.alpha = 0.9
-        }
-        UIView.animate(withDuration: 0.3, delay: 0.5) {
-            self.closeButton.alpha = 0.9
-        }
+            prepareForAnimation(cell: cell, index: indexPath.item)
 
-        UIView.animate(withDuration: 0.5, delay: 0.0) {
+            self.avatarTopAnchor.priority = UILayoutPriority(950)
+            self.avatarLeadingAnchor.priority = UILayoutPriority(950)
 
-            guard let photoZoom = self.view.viewWithTag(100) as? FeedZoomView else { return }
+            UIView.animate(withDuration: 0.5, delay: 0.0) {
+                self.greyBackView.alpha = 0.9
+            }
+            UIView.animate(withDuration: 0.3, delay: 0.5) {
+                self.closeButton.alpha = 0.9
+            }
 
-            let avatarNewWidth = UIScreen.main.bounds.width / 4 * 2
-            photoZoom.avatarImageView.layer.cornerRadius = 0
+            UIView.animate(withDuration: 0.5, delay: 0.0) {
 
-            self.avatarTopAnchor.constant = UIScreen.main.bounds.width - avatarNewWidth * 1.5
-            self.avatarLeadingAnchor.constant = 5
+                guard let photoZoom = self.view.viewWithTag(100) as? FeedZoomView else { return }
 
-            self.avatarHeightAnchor.constant = avatarNewWidth
-            self.avatarWidthAnchor.constant = avatarNewWidth
+                let avatarNewWidth = UIScreen.main.bounds.width / 4 * 2
+                photoZoom.avatarImageView.layer.cornerRadius = 0
 
-            self.view.layoutIfNeeded()
+                self.avatarTopAnchor.constant = UIScreen.main.bounds.width - avatarNewWidth * 1.5
+                self.avatarLeadingAnchor.constant = 5
+
+                self.avatarHeightAnchor.constant = avatarNewWidth
+                self.avatarWidthAnchor.constant = avatarNewWidth
+
+                self.view.layoutIfNeeded()
+            }
         }
     }
 }

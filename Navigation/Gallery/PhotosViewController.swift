@@ -175,48 +175,54 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
 
     private var sideInset: CGFloat { return 8 }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         let width = (collectionView.bounds.width - sideInset * 4) / 3
         return CGSize(width: width, height: width)
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(top: sideInset, left: sideInset, bottom: sideInset, right: sideInset)
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return sideInset
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! PhotosCollectionViewCell
-        prepareForAnimation(cell: cell, index: indexPath.item)
 
-        self.avatarTopAnchor.priority = UILayoutPriority(950)
-        self.avatarLeadingAnchor.priority = UILayoutPriority(950)
+        if UIDevice.current.orientation.isPortrait {
+            let cell = collectionView.cellForItem(at: indexPath) as! PhotosCollectionViewCell
+            prepareForAnimation(cell: cell, index: indexPath.item)
 
-        UIView.animate(withDuration: 0.5, delay: 0.0) {
-            self.greyBackView.alpha = 0.9
-        }
-        UIView.animate(withDuration: 0.3, delay: 0.5) {
-            self.closeButton.alpha = 0.9
-        }
+            self.avatarTopAnchor.priority = UILayoutPriority(950)
+            self.avatarLeadingAnchor.priority = UILayoutPriority(950)
 
-        UIView.animate(withDuration: 0.5, delay: 0.0) {
+            UIView.animate(withDuration: 0.5, delay: 0.0) {
+                self.greyBackView.alpha = 0.9
+            }
+            UIView.animate(withDuration: 0.3, delay: 0.5) {
+                self.closeButton.alpha = 0.9
+            }
 
-            guard let photoZoom = self.view.viewWithTag(100) as? GalleryPhotosZoomView else { return }
+            UIView.animate(withDuration: 0.5, delay: 0.0) {
 
-            let avatarNewWidth = UIScreen.main.bounds.width / 3 * 2
-            photoZoom.avatarImageView.layer.cornerRadius = 0
+                guard let photoZoom = self.view.viewWithTag(100) as? GalleryPhotosZoomView else { return }
 
-            self.avatarTopAnchor.constant = UIScreen.main.bounds.width - avatarNewWidth
-            self.avatarLeadingAnchor.constant = 5
+                let avatarNewWidth = UIScreen.main.bounds.width / 3 * 2
+                photoZoom.avatarImageView.layer.cornerRadius = 0
 
-            self.avatarHeightAnchor.constant = avatarNewWidth
-            self.avatarWidthAnchor.constant = avatarNewWidth
+                self.avatarTopAnchor.constant = UIScreen.main.bounds.width - avatarNewWidth
+                self.avatarLeadingAnchor.constant = 5
 
-            self.view.layoutIfNeeded()
+                self.avatarHeightAnchor.constant = avatarNewWidth
+                self.avatarWidthAnchor.constant = avatarNewWidth
+
+                self.view.layoutIfNeeded()
+            }
         }
     }
 }
