@@ -67,6 +67,7 @@ class ProfileViewController: UIViewController {
             self?.postTableView.reloadData()
         }
 
+        self.tabBarController?.tabBar.isHidden = true
         let loginView = LogInViewController()
         self.navigationController?.pushViewController(loginView, animated: false)
 

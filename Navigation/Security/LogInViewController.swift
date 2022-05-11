@@ -197,6 +197,7 @@ class LogInViewController: UIViewController {
 
         self.navigationController?.popViewController(animated: true)
         self.navigationController?.navigationBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = false
     }
 
     @objc private func keyBoardShow(notification: NSNotification) {
