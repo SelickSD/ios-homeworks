@@ -9,6 +9,8 @@ import UIKit
 
 class ProfileHeaderView: UIView {
 
+    private var statusText: String?
+
     private lazy var backView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
@@ -21,11 +23,11 @@ class ProfileHeaderView: UIView {
         return view
     }()
 
-    private lazy var avatarImageView: UIImageView = {
+    var avatarImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "IMG_1"))
         imageView.layer.borderWidth = 3
         imageView.layer.borderColor = UIColor.white.cgColor
-        imageView.layer.cornerRadius = 50
+        imageView.layer.cornerRadius = 75
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -91,20 +93,10 @@ class ProfileHeaderView: UIView {
         return stack
     }()
 
-    private lazy var infoStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .horizontal
-        stack.spacing = 8
-        return stack
-    }()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.drawSelf()
     }
-
-    private var statusText: String?
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -113,9 +105,8 @@ class ProfileHeaderView: UIView {
     private func drawSelf() {
 
         self.addSubview(backView)
-        self.backView.addSubview(infoStackView)
-        self.infoStackView.addArrangedSubview(avatarImageView)
-        self.infoStackView.addArrangedSubview(labelStackView)
+        self.backView.addSubview(avatarImageView)
+        self.backView.addSubview(labelStackView)
         self.labelStackView.addArrangedSubview(fullNameLabel)
         self.labelStackView.addArrangedSubview(statusLabel)
         self.labelStackView.addArrangedSubview(statusTextField)
@@ -129,12 +120,16 @@ class ProfileHeaderView: UIView {
         ])
 
         NSLayoutConstraint.activate([
-            infoStackView.topAnchor.constraint(equalTo: backView.topAnchor),
-            infoStackView.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 16),
-            infoStackView.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -16),
-            infoStackView.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -8),
+            labelStackView.topAnchor.constraint(equalTo: backView.topAnchor),
+            labelStackView.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -16),
+            labelStackView.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -8),
 
-            avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor, multiplier: 1.0)
+            avatarImageView.topAnchor.constraint(equalTo: backView.topAnchor),
+            avatarImageView.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 16),
+            avatarImageView.trailingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: -8),
+            avatarImageView.bottomAnchor.constraint(equalTo: backView.bottomAnchor),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 150),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 150)
         ])
     }
 
@@ -150,7 +145,7 @@ class ProfileHeaderView: UIView {
     }
 }
 
-///MARK: - UITextFieldDelegate
+//MARK: - UITextFieldDelegate
 
 extension ProfileHeaderView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

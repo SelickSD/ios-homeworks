@@ -144,6 +144,7 @@ class PostTableViewCell: UITableViewCell {
     }
 }
 
+//MARK: - Setupable
 
 extension PostTableViewCell: Setupable {
     
