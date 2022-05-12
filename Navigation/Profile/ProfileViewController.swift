@@ -11,11 +11,17 @@ class ProfileViewController: UIViewController {
 
     private let notificationCenter = NotificationCenter.default
     private let headerView = ProfileHeaderView()
-
     private var avatarTopAnchor = NSLayoutConstraint()
     private var avatarLeadingAnchor = NSLayoutConstraint()
     private var avatarWidthAnchor = NSLayoutConstraint()
     private var avatarHeightAnchor = NSLayoutConstraint()
+    private var tempLabel: String?
+    private var dataSource: [Post.Article] = []
+    private var myData: [Post.MyArticle] = []
+    private var topViewConstraint = NSLayoutConstraint()
+    private var leadingViewConstraint = NSLayoutConstraint()
+    private var trailingViewConstraint = NSLayoutConstraint()
+    private var bottomViewConstraint = NSLayoutConstraint()
 
     private lazy var postTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -52,8 +58,6 @@ class ProfileViewController: UIViewController {
         return JSONDecoder()
     }()
 
-    private var dataSource: [Post.Article] = []
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -63,24 +67,31 @@ class ProfileViewController: UIViewController {
             self?.postTableView.reloadData()
         }
 
+        self.tabBarController?.tabBar.isHidden = true
         let loginView = LogInViewController()
         self.navigationController?.pushViewController(loginView, animated: false)
 
         setupView()
         setupGestures()
-    }
+        setupData()
 
-    private func setupGestures() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-        headerView.avatarImageView.isUserInteractionEnabled = true
-        headerView.avatarImageView.addGestureRecognizer(tapGesture)
+        tempLabel = navigationItem.title
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = tempLabel
+
         notificationCenter.addObserver(self, selector: #selector(keyBoardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(keyBoardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        navigationItem.title = ""
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -90,35 +101,21 @@ class ProfileViewController: UIViewController {
         notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
-    @objc private func keyBoardShow() {}
-
-    @objc private func keyBoardHide() {}
-
-    @objc private func tapAction() {
-
-        prepareForAnimation()
-
-        UIView.animate(withDuration: 0.5, delay: 0.0) {
-            self.greyBackView.alpha = 0.9
+    private func setupData(){
+        for item in dataSource {
+            myData.append(Post.MyArticle.init(author: item.author,
+                                              image: item.image,
+                                              description: item.description,
+                                              likes: Int(item.likes) ?? 0,
+                                              views: Int(item.views) ?? 0))
         }
-        UIView.animate(withDuration: 0.3, delay: 0.5) {
-            self.closeButton.alpha = 0.9
-        }
+        dataSource.removeAll()
+    }
 
-        UIView.animate(withDuration: 0.5, delay: 0.0) {
-
-            guard let avatarZoom = self.view.viewWithTag(100) as? AvatarZoomView else { return }
-
-            let avatarNewWidth = UIScreen.main.bounds.width / 3 * 2
-            avatarZoom.avatarImageView.layer.cornerRadius = 0
-
-            self.avatarTopAnchor.constant = UIScreen.main.bounds.width - avatarNewWidth
-            self.avatarLeadingAnchor.constant = (UIScreen.main.bounds.width - avatarNewWidth) / 2
-            self.avatarHeightAnchor.constant = avatarNewWidth
-            self.avatarWidthAnchor.constant = avatarNewWidth
-
-            self.view.layoutIfNeeded()
-        }
+    private func setupGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+        headerView.avatarImageView.isUserInteractionEnabled = true
+        headerView.avatarImageView.addGestureRecognizer(tapGesture)
     }
 
     private func prepareForAnimation() {
@@ -152,6 +149,71 @@ class ProfileViewController: UIViewController {
         ])
 
         view.layoutIfNeeded()
+    }
+
+    private func setupView() {
+
+        self.view.addSubview(self.postTableView)
+
+        topViewConstraint = self.postTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
+        leadingViewConstraint = self.postTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
+        trailingViewConstraint = self.postTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        bottomViewConstraint = self.postTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+
+        topViewConstraint.priority = UILayoutPriority(900)
+        leadingViewConstraint.priority = UILayoutPriority(900)
+        trailingViewConstraint.priority = UILayoutPriority(900)
+        bottomViewConstraint.priority = UILayoutPriority(900)
+
+        NSLayoutConstraint.activate([
+            topViewConstraint, leadingViewConstraint, trailingViewConstraint, bottomViewConstraint
+        ])
+    }
+
+    private func fetchArticles(completion: @escaping ([Post.Article]) -> Void) {
+        if let path = Bundle.main.path(forResource: "post", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
+                let post = try self.jsonDecoder.decode(Post.self, from: data)
+                completion(post.newsPost)
+            } catch let error {
+                print("parse error: \(error.localizedDescription)")
+            }
+        } else {
+            fatalError("Invalid filename/path.")
+        }
+    }
+
+    @objc private func keyBoardShow() {}
+
+    @objc private func keyBoardHide() {}
+
+    @objc private func tapAction() {
+        view.endEditing(true)
+
+        prepareForAnimation()
+
+        UIView.animate(withDuration: 0.5, delay: 0.0) {
+            self.greyBackView.alpha = 0.9
+        }
+        UIView.animate(withDuration: 0.3, delay: 0.5) {
+            self.closeButton.alpha = 0.9
+        }
+
+        UIView.animate(withDuration: 0.5, delay: 0.0) {
+
+            guard let avatarZoom = self.view.viewWithTag(100) as? AvatarZoomView else { return }
+
+            let avatarNewWidth = UIScreen.main.bounds.width / 3 * 2
+            avatarZoom.avatarImageView.layer.cornerRadius = 0
+
+            self.avatarTopAnchor.constant = UIScreen.main.bounds.width - avatarNewWidth
+            self.avatarLeadingAnchor.constant = (UIScreen.main.bounds.width - avatarNewWidth) / 2
+            self.avatarHeightAnchor.constant = avatarNewWidth
+            self.avatarWidthAnchor.constant = avatarNewWidth
+
+            self.view.layoutIfNeeded()
+        }
     }
 
     @objc private func didTapCloseButton() {
@@ -191,34 +253,6 @@ class ProfileViewController: UIViewController {
 
         self.view.layoutIfNeeded()
     }
-
-    private func setupView() {
-
-        self.view.addSubview(self.postTableView)
-
-        let topViewConstraint = self.postTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-        let leadingViewConstraint = self.postTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
-        let trailingViewConstraint = self.postTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-        let bottomViewConstraint = self.postTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-
-        NSLayoutConstraint.activate([
-            topViewConstraint, leadingViewConstraint, trailingViewConstraint, bottomViewConstraint
-        ])
-    }
-
-    private func fetchArticles(completion: @escaping ([Post.Article]) -> Void) {
-        if let path = Bundle.main.path(forResource: "post", ofType: "json") {
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
-                let post = try self.jsonDecoder.decode(Post.self, from: data)
-                completion(post.newsPost)
-            } catch let error {
-                print("parse error: \(error.localizedDescription)")
-            }
-        } else {
-            fatalError("Invalid filename/path.")
-        }
-    }
 }
 
 // MARK:  - UITableViewDelegate
@@ -235,7 +269,7 @@ extension ProfileViewController: UITableViewDelegate {
         case 0:
             return 1
         case 1:
-            return self.dataSource.count
+            return self.myData.count
         default:
             return 0
         }
@@ -256,11 +290,38 @@ extension ProfileViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        view.endEditing(true)
+
         if indexPath == IndexPath(row: 0, section: 0) {
             let galleryViewController = PhotosViewController()
             navigationController?.pushViewController(galleryViewController, animated: true)
 
             tableView.deselectRow(at: indexPath, animated: false)
+        } else {
+            let postViewController = PostViewController()
+            navigationController?.pushViewController(postViewController, animated: true)
+            postViewController.setupPost(article: myData[indexPath.row])
+            myData[indexPath.row].views += 1
+            postTableView.reloadData()
+        }
+    }
+
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+
+        if indexPath.section > 0 {
+            return .delete
+        } else {
+            return .none
+        }
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+
+        if editingStyle == .delete && indexPath.section > 0 {
+            myData.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .left)
+            postTableView.reloadData()
         }
     }
 }
@@ -278,16 +339,18 @@ extension ProfileViewController: UITableViewDataSource {
         } else if indexPath.section == 1 && tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as? PostTableViewCell != nil {
 
             let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
+            cell.delegate = self
 
-            let article = self.dataSource[indexPath.row]
+            let article = self.myData[indexPath.row]
             let viewModel = PostTableViewCell.ViewModel(author: article.author,
                                                         image: article.image,
                                                         description: article.description,
-                                                        likes: Int(article.likes) ?? 0,
-                                                        views: Int(article.views) ?? 0
+                                                        likes: article.likes,
+                                                        views: article.views
             )
 
             cell.setup(with: viewModel)
+            cell.addTagToLabel(tag: indexPath.row)
             return cell
         }
 
@@ -296,3 +359,11 @@ extension ProfileViewController: UITableViewDataSource {
     }
 }
 
+//MARK: - PostTableViewCellDelegate
+
+extension ProfileViewController: PostTableViewCellDelegate {
+    func addLikes(tag: Int) {
+        myData[tag].likes += 1
+        postTableView.reloadData()
+    }
+}

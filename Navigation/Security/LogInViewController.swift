@@ -88,14 +88,24 @@ class LogInViewController: UIViewController {
         button.addTarget(self, action: #selector(self.didTapLogInButton), for: .touchUpInside)
         return button
     }()
+
+    private lazy var warningLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .lightGray
+        label.font = .systemFont(ofSize: 12)
+        label.textAlignment = .center
+        label.isHidden = true
+        return label
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = .white //UIColor(hex: "#4885CC")
+        view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true
         
-        self.setupView()
+        setupView()
+        setupGestures()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -116,10 +126,11 @@ class LogInViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(iconView)
-        self.contentView.addSubview(loginStackView)
-        self.scrollView.addSubview(logInButton)
-        self.loginStackView.addArrangedSubview(loginTextField)
-        self.loginStackView.addArrangedSubview(passwordTextField)
+        contentView.addSubview(loginStackView)
+        contentView.addSubview(warningLabel)
+        scrollView.addSubview(logInButton)
+        loginStackView.addArrangedSubview(loginTextField)
+        loginStackView.addArrangedSubview(passwordTextField)
 
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -156,31 +167,57 @@ class LogInViewController: UIViewController {
             passwordTextField.trailingAnchor.constraint(equalTo: loginStackView.trailingAnchor),
             passwordTextField.heightAnchor.constraint(equalToConstant: 50),
 
-            logInButton.topAnchor.constraint(equalTo: loginStackView.bottomAnchor, constant: 16),
+            logInButton.topAnchor.constraint(equalTo: loginStackView.bottomAnchor, constant: 32),
             logInButton.leadingAnchor.constraint(equalTo: loginStackView.leadingAnchor),
             logInButton.trailingAnchor.constraint(equalTo: loginStackView.trailingAnchor),
             logInButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            logInButton.heightAnchor.constraint(equalToConstant: 50)
+            logInButton.heightAnchor.constraint(equalToConstant: 50),
+
+            warningLabel.topAnchor.constraint(equalTo: loginStackView.bottomAnchor, constant: 5),
+            warningLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
     }
-    
+
+    private func setupGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = true
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    private func returnNormalOptions() {
+        [loginTextField, passwordTextField].forEach { if $0.backgroundColor == UIColor(hex: "#f2d7d5") {
+            $0.backgroundColor = .systemGray6 }
+        }
+    }
+
     @objc private func didTapLogInButton() {
-        
+        view.endEditing(true)
+
+        guard SecurityService().checkSecurityControl(loginTextField, passwordTextField, loginStackView, warningLabel, self) else { return }
+
         self.navigationController?.popViewController(animated: true)
         self.navigationController?.navigationBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = false
     }
 
     @objc private func keyBoardShow(notification: NSNotification) {
+
+        returnNormalOptions()
+
         if let keyBoardSize =
             (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            scrollView.contentInset.bottom = keyBoardSize.height
-            scrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyBoardSize.height, right: 0)
+            scrollView.contentInset.bottom = keyBoardSize.height + 25
+            scrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyBoardSize.height + 25, right: 0)
         }
     }
     
     @objc private func keyBoardHide(notification: NSNotification) {
         scrollView.contentInset.bottom = .zero
         scrollView.verticalScrollIndicatorInsets = .zero
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 
@@ -192,7 +229,3 @@ extension LogInViewController: UITextFieldDelegate {
         return true
     }
 }
-
-
-
-
